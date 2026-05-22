@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP Workflow Video AI — 7 bước (VEO 3)</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f6f3;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --soft: #f1f5f9;
+  --text: #37352f;
+  --text-soft: #6b7280;
+  --text-faint: #9ca3af;
+  --blue: #2563eb;
+  --blue-soft: #eff6ff;
+  --blue-dark: #1d4ed8;
+  --purple: #7c3aed;
+  --purple-soft: #f5f3ff;
+  --green: #16a34a;
+  --green-soft: #ecfdf5;
+  --yellow: #eab308;
+  --yellow-soft: #fef9c3;
+  --red: #dc2626;
+  --red-soft: #fef2f2;
+  --orange-text: #92400e;
+  --orange-bg: #fef3c7;
+}
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* Topbar */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(247, 246, 243, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+}
+.topbar-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--blue); color: white;
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 14px;
+}
+.brand-name { font-weight: 700; font-size: 15px; line-height: 1.2; }
+.brand-sub { font-size: 12px; color: var(--text-soft); }
+.topbar-right { display: flex; align-items: center; gap: 14px; }
+.progress-wrap { display: flex; align-items: center; gap: 10px; }
+.progress-bar {
+  width: 120px; height: 6px; background: var(--soft);
+  border-radius: 999px; overflow: hidden;
+}
+.progress-fill { height: 100%; background: var(--blue); transition: width 0.3s; width: 0%; }
+.progress-text {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600; font-size: 13px;
+}
+.reset-btn {
+  font-size: 11px; color: var(--text-soft);
+  padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+.reset-btn:hover { color: var(--red); border-color: var(--red); }
+.page-link {
+  font-size: 12px; font-weight: 600;
+  color: #db2777;
+  padding: 5px 12px; border-radius: 6px;
+  border: 1px solid #fbcfe8;
+  background: #fdf2f8;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.page-link:hover { background: #fce7f3; border-color: #db2777; }
+@media (max-width: 640px) {
+  .page-link { font-size: 11px; padding: 4px 9px; }
+}
+
+/* Stepper */
+.stepper {
+  position: sticky; top: 55px; z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.stepper-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px;
+  display: flex; gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.stepper-inner::-webkit-scrollbar { height: 4px; }
+.stepper-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.step-pill {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  background: var(--card);
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.step-pill:hover { color: var(--text); border-color: var(--text-faint); }
+.step-pill.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+.step-pill.done:not(.active) {
+  background: var(--green-soft);
+  color: var(--green);
+  border-color: #bbf7d0;
+}
+.step-pill-num {
+  font-weight: 700; font-size: 11px;
+  opacity: 0.85;
+}
+
+/* Main */
+main {
+  max-width: 820px; margin: 0 auto;
+  padding: 20px 24px 50px;
+}
+.step {
+  scroll-margin-top: 70px;
+  padding: 32px 0;
+  border-bottom: 2px solid var(--soft);
+}
+.step:last-child { border-bottom: none; padding-bottom: 0; }
+.step:first-child { padding-top: 0; }
+
+/* Step head */
+.step-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.step-tag.prod { background: var(--green-soft); color: var(--green); }
+.step-title {
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 10px 0 6px;
+  line-height: 1.25;
+}
+.step-desc { color: var(--text-soft); font-size: 15px; max-width: 700px; }
+.step-meta {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  margin-top: 16px; padding: 12px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.meta-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px;
+}
+.meta-icon { font-size: 14px; }
+.meta-label { color: var(--text-soft); }
+.meta-value { font-weight: 600; }
+
+/* Card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.card-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.card-title-icon { font-size: 16px; }
+
+/* Action checkbox */
+.action-list { display: flex; flex-direction: column; gap: 8px; }
+.action-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--soft);
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.action-item:hover { background: #e8eef5; }
+.action-item input[type="checkbox"] {
+  margin-top: 3px;
+  width: 16px; height: 16px;
+  accent-color: var(--blue);
+  cursor: pointer; flex-shrink: 0;
+}
+.action-item label {
+  flex: 1;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.action-item.done label {
+  text-decoration: line-through;
+  color: var(--text-faint);
+}
+.action-item.done { opacity: 0.65; }
+
+/* Prompt card */
+.prompt-card {
+  background: var(--purple-soft);
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 20px;
+}
+.prompt-card .card-title {
+  color: var(--purple);
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+.prompt-card-desc {
+  font-size: 12.5px;
+  color: #6d28d9;
+  margin-bottom: 12px;
+  margin-top: -6px;
+}
+.prompt-box {
+  position: relative;
+  background: #1e1b2e;
+  color: #e9e6f5;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+}
+.prompt-box .placeholder {
+  background: var(--orange-bg);
+  color: var(--orange-text);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.copy-btn {
+  position: absolute; top: 10px; right: 10px;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.1);
+  color: #e9e6f5;
+  border-radius: 6px;
+  font-size: 11px; font-weight: 600;
+  transition: all 0.15s;
+}
+.copy-btn:hover { background: rgba(255,255,255,0.2); }
+.copy-btn.copied {
+  background: var(--green);
+  color: white;
+}
+
+/* Callout */
+.callout {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-left: 3px solid;
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+.callout-title { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.callout.tip { background: var(--blue-soft); border-color: var(--blue); color: #1e40af; }
+.callout.warn { background: var(--yellow-soft); border-color: var(--yellow); color: #854d0e; }
+.callout.rule { background: var(--green-soft); border-color: var(--green); color: #166534; }
+.callout.danger { background: var(--red-soft); border-color: var(--red); color: #991b1b; }
+.callout p + p { margin-top: 6px; }
+.callout ul { padding-left: 18px; margin-top: 6px; }
+.callout ul li { margin-bottom: 4px; }
+.callout code {
+  background: rgba(0,0,0,0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(247, 246, 243, 0.94);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 12px 24px;
+}
+.nav-inner {
+  max-width: 820px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+.nav-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+  transition: all 0.15s;
+}
+.nav-btn.primary {
+  background: var(--blue); color: white;
+}
+.nav-btn.primary:hover { background: var(--blue-dark); }
+.nav-btn.ghost {
+  background: var(--card); color: var(--text);
+  border: 1px solid var(--border);
+}
+.nav-btn.ghost:hover { background: var(--soft); }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-counter {
+  font-size: 13px; color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Collapsible */
+.collapsible {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--card);
+}
+.collapsible-trigger {
+  width: 100%; text-align: left;
+  padding: 14px 18px;
+  font-size: 14px; font-weight: 600;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--soft);
+  transition: background 0.15s;
+}
+.collapsible-trigger:hover { background: #e8eef5; }
+.collapsible-content {
+  display: none;
+  padding: 18px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
+}
+.collapsible.open .collapsible-content { display: block; }
+.collapsible.open .collapsible-icon { transform: rotate(180deg); }
+.collapsible-icon { transition: transform 0.2s; }
+.collapsible-content h4 {
+  margin: 14px 0 6px;
+  font-size: 13px;
+  color: var(--blue);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.collapsible-content h4:first-child { margin-top: 0; }
+.collapsible-content p { margin-bottom: 8px; }
+.collapsible-content .scene-block {
+  margin: 8px 0;
+  padding: 10px 12px;
+  background: var(--soft);
+  border-left: 2px solid var(--blue);
+  border-radius: 4px;
+}
+.collapsible-content .scene-block strong { color: var(--blue); }
+
+/* Table */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  font-size: 13px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.compare-table th, .compare-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.compare-table thead {
+  background: var(--soft);
+  font-weight: 700;
+}
+.compare-table thead th { font-size: 12px; letter-spacing: 0.3px; }
+.compare-table tbody tr:last-child td { border-bottom: none; }
+.compare-table .row-label { font-weight: 600; color: var(--text-soft); background: #fafafa; }
+
+/* Intro */
+.intro-banner {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+  border: 1px solid #ddd6fe;
+}
+.intro-banner h3 { font-size: 16px; margin-bottom: 6px; }
+.intro-banner p { font-size: 13.5px; color: var(--text-soft); }
+
+.phase-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 20px;
+}
+@media (max-width: 640px) { .phase-grid { grid-template-columns: 1fr; } }
+.phase-card {
+  padding: 18px; border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+.phase-card.setup { border-top: 3px solid var(--blue); }
+.phase-card.verify { border-top: 3px solid var(--yellow); }
+.phase-card.prod { border-top: 3px solid var(--green); }
+.phase-tag {
+  display: inline-block; padding: 3px 9px;
+  border-radius: 999px; font-size: 11px; font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 0.4px;
+}
+.phase-tag.setup { background: var(--blue-soft); color: var(--blue); }
+.phase-tag.verify { background: var(--yellow-soft); color: #854d0e; }
+.phase-tag.prod { background: var(--green-soft); color: var(--green); }
+.phase-card h3 { font-size: 16px; margin-bottom: 4px; }
+.phase-card-desc { font-size: 12.5px; color: var(--text-soft); margin-bottom: 12px; }
+.phase-list { list-style: none; }
+.phase-list li {
+  padding: 7px 0; font-size: 13px;
+  border-top: 1px dashed var(--border);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.phase-list li:first-child { border-top: none; }
+.phase-list .step-num {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: var(--blue);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  padding: 2px 6px;
+  background: var(--blue-soft);
+  border-radius: 4px;
+  min-width: 28px; text-align: center;
+}
+.phase-card.prod .phase-list .step-num { color: var(--green); background: var(--green-soft); }
+.phase-card.verify .phase-list .step-num { color: #854d0e; background: var(--yellow-soft); }
+
+/* Workflow Overview — compact timeline 1 card */
+.workflow-overview {
+  margin-top: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.phase-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border-left: 3px solid var(--border);
+}
+.phase-row.setup { background: var(--blue-soft); border-left-color: var(--blue); }
+.phase-row.verify { background: var(--yellow-soft); border-left-color: var(--yellow); }
+.phase-row.prod { background: var(--green-soft); border-left-color: var(--green); }
+.phase-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  line-height: 1.2;
+  width: 28px;
+  text-align: center;
+}
+.phase-content { flex: 1; min-width: 0; }
+.phase-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.phase-head strong {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+.phase-row.setup .phase-head strong { color: var(--blue); }
+.phase-row.verify .phase-head strong { color: #854d0e; }
+.phase-row.prod .phase-head strong { color: var(--green); }
+.phase-time {
+  font-size: 11.5px;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+.phase-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  font-size: 12px;
+}
+.step-chip {
+  padding: 3px 8px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 5px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+}
+.phase-row.setup .step-chip { color: var(--blue); }
+.phase-row.verify .step-chip { color: #854d0e; }
+.phase-row.prod .step-chip { color: var(--green); }
+.phase-sep { color: var(--text-faint); font-size: 11px; padding: 0 1px; }
+.phase-text {
+  font-size: 12.5px;
+  color: #713f12;
+  line-height: 1.5;
+}
+.phase-arrow {
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+@media (max-width: 640px) {
+  .phase-row { padding: 10px 12px; gap: 10px; }
+  .phase-icon { font-size: 18px; width: 22px; }
+  .phase-flow { gap: 3px; font-size: 11.5px; }
+  .step-chip { padding: 2px 6px; font-size: 11px; }
+  .phase-sep { display: none; }
+}
+
+/* Done */
+.done-banner {
+  text-align: center;
+  padding: 40px 20px;
+}
+.done-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green);
+  display: grid; place-items: center;
+  font-size: 30px;
+  margin: 0 auto 16px;
+}
+.done-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.done-desc { color: var(--text-soft); max-width: 480px; margin: 0 auto; }
+.done-stats {
+  display: flex; gap: 14px; justify-content: center;
+  margin-top: 24px; flex-wrap: wrap;
+}
+.stat-pill {
+  padding: 10px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+}
+.stat-pill strong { display: block; font-size: 18px; color: var(--blue); margin-bottom: 2px; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  main { padding: 20px 16px 60px; }
+  .topbar { padding: 10px 14px; }
+  .topbar-inner { gap: 10px; }
+  .brand-sub { display: none; }
+  .stepper-inner { padding: 0 14px; }
+  .step-title { font-size: 22px; }
+  .prompt-box { font-size: 11.5px; padding: 14px; }
+  .nav-inner { padding: 0; }
+  .step-meta { flex-direction: column; gap: 8px; }
+  .progress-bar { width: 70px; }
+  .reset-btn { display: none; }
+}
+
+/* Back-to-top floating button */
+.back-to-top {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 60;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
+  font-size: 20px; font-weight: 700;
+  display: grid; place-items: center;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.15s;
+}
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { background: var(--blue-dark); transform: translateY(-2px); }
+@media (max-width: 640px) {
+  .back-to-top { bottom: 16px; right: 16px; width: 40px; height: 40px; font-size: 18px; }
+}
+
+/* Print */
+@media print {
+  .topbar, .stepper, .bottom-nav { display: none !important; }
+  .step { display: block !important; page-break-after: always; padding: 20px 0; }
+  main { padding: 0 20px; max-width: 100%; }
+  .prompt-box { white-space: pre-wrap; word-wrap: break-word; }
+  .copy-btn { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div>
+        <div class="brand-name">SOP Workflow Video AI</div>
+        <div class="brand-sub">7 bước · build Custom GPT cho VEO 3</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <a href="prompt-thoi-trang.html" class="page-link" title="Mở trang Prompt Thời Trang">👗 Prompt Thời Trang</a>
+      <button class="reset-btn" id="resetBtn" title="Xóa toàn bộ tick checkbox">↻ Reset</button>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0%</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<button class="back-to-top" id="backToTop" title="Lên đầu trang" aria-label="Lên đầu trang">↑</button>
+
+<script>
+// =============== DATA ===============
+const STORAGE_KEY = 'sop-workflow-v4';
+const STEP_KEY = 'sop-current-step-v4';
+
+const STEPS = [
+  // 0 — INTRO
+  {
+    id: 'intro',
+    num: '🚀',
+    pillLabel: 'Bắt đầu',
+    isIntro: true,
+    tag: 'Tổng quan',
+    title: 'SOP Workflow Video AI · 7 bước',
+    desc: 'Quy trình 7 bước build Custom GPT cho kênh video AI dùng <strong>Google Flow</strong> (Nano Banana tạo ảnh tĩnh + VEO 3 image-to-video native audio). Setup ~2 tiếng (làm 1 lần, có iterate). Xong rồi mỗi clip mới chỉ paste 1 topic vào Custom GPT → ra kịch bản 2 BLOCK (Image prompts + MOTION/Voice-over) → gen trong Flow.',
+    customHtml: `
+      <div class="workflow-overview">
+        <div class="phase-row setup">
+          <div class="phase-icon">🎯</div>
+          <div class="phase-content">
+            <div class="phase-head">
+              <strong>QUY TRÌNH 7 BƯỚC · BUILD GPT cho VEO 3</strong>
+              <span class="phase-time">~90 phút · làm 1 lần</span>
+            </div>
+            <div class="phase-flow">
+              <span class="step-chip">1 · DNA</span>
+              <span class="phase-sep">→</span>
+              <span class="step-chip">2 · Nhân vật</span>
+              <span class="phase-sep">→</span>
+              <span class="step-chip">3 · Test VEO 3</span>
+              <span class="phase-sep">→</span>
+              <span class="step-chip">4 · Đóng GPT</span>
+              <span class="phase-sep">→</span>
+              <span class="step-chip">5 · Test GPT</span>
+              <span class="phase-sep">→</span>
+              <span class="step-chip">6 · Test thật</span>
+              <span class="phase-sep">→</span>
+              <span class="step-chip">7 · Dùng</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `,
+    callouts: [
+      { type: 'tip', title: '💡 Cách dùng', html: 'Mỗi checkbox tự lưu vào localStorage — đóng tab mở lại còn nguyên. Nút <strong>Copy</strong> ở prompt copy thẳng vào clipboard. Scroll dọc để đi qua 7 bước.' },
+      { type: 'rule', title: '🔁 Logic vòng lặp verify', html: 'Bước 5 + 6 là cổng verify: test GPT output (5) + test gen VEO 3 thực tế (6). <strong>Đạt → Bước 7 dùng luôn</strong>. Chưa đạt → quay Bước 4 sửa SYSTEM_PROMPT, save GPT, test lại từ Bước 5.' }
+    ]
+  },
+
+  // 1 — STEP — DNA Kênh
+  {
+    id: 's0a',
+    num: '1',
+    pillLabel: 'DNA kênh',
+    tag: 'Bước 1/7',
+    title: '1 · DNA kênh — lock 10 yếu tố nhận diện',
+    desc: 'Mục đích: định nghĩa rõ chủ đề / audience / persona / style / bối cảnh / slang... trước khi gen bất kỳ ảnh hay video nào. DNA là input cho mọi step sau.',
+    meta: { time: '~20 phút', tool: 'Claude / ChatGPT', output: '1 bảng DNA + tagline 20 từ' },
+    actions: [
+      'Mở Claude hoặc ChatGPT (chưa cần GPTs riêng)',
+      'Paste prompt 1.1 bên dưới',
+      'Trả lời lần lượt 10 câu hỏi AI đưa (mỗi lần 1 câu)',
+      'Nhận bảng DNA + tagline 20 từ',
+      'Lưu output vào Notion / Google Doc / file .md'
+    ],
+    prompt: {
+      title: '📋 Prompt 1.1 — Define DNA Kênh',
+      desc: 'Paste vào Claude/ChatGPT thường (chưa cần GPTs)',
+      text: `Bạn là chuyên gia định vị kênh content video AI. Tôi muốn tạo kênh mới về chủ đề: [CHỦ ĐỀ THÔ].
+
+Hỏi tôi LẦN LƯỢT 10 câu (mỗi lần 1 câu, đợi tôi trả lời mới hỏi tiếp) để lock toàn bộ DNA kênh:
+
+1. CHỦ ĐỀ chính trong 1 câu cụ thể
+2. AUDIENCE target (giới tính / tuổi / nghề / vấn đề họ gặp)
+3. TONE giọng (chuyên gia / bạn bè / đời thường / giáo viên)
+4. PERSONA nhân vật chính (tên / tuổi / ngoại hình / trang phục / accessory / signature prop / 4 biểu cảm)
+5. STYLE hình ảnh (3D realistic CGI / 2D animation / live action photoreal / Pixar)
+6. BỐI CẢNH signature (5-7 elements lặp lại mọi clip để nhận diện)
+7. SLOGAN kết clip + câu CTA engagement
+8. MOOD ARC 3-phase (cảm xúc đầu → giữa → cuối)
+9. SLANG / TỪ ĐẶC TRƯNG để tạo identity
+10. FORMAT chính (Drama / Educational / Comparison / Mythbusting / Q&A)
+
+Sau khi đủ 10 câu, output 1 BẢNG DNA đầy đủ + 1 tagline 20 từ cô đọng tinh thần kênh.`
+    },
+    extraHtml: `
+      <div class="card">
+        <div class="card-title"><span class="card-title-icon">📚</span>Cheat sheet — Các dạng STYLE hình ảnh (cho câu 5 DNA)</div>
+        <p style="font-size: 13px; color: var(--text-soft); margin-bottom: 12px;">Khi AI hỏi câu 5 STYLE, chọn 1 trong các dạng dưới. Mỗi link 🔍 mở Google Images để anh thấy "nhìn như nào" thật sự.</p>
+
+        <div class="collapsible" style="margin-top: 12px;">
+          <button class="collapsible-trigger">
+            <span>🌸 Nhóm dễ thương — Pixar / Kawaii</span>
+            <span class="collapsible-icon">▼</span>
+          </button>
+          <div class="collapsible-content">
+            <h4>1. Pixar style</h4>
+            <p><strong>Là gì:</strong> 3D animation của hãng Pixar/Disney (Toy Story, Up, Inside Out, Coco). Đầu hơi to, mắt to long lanh, da mịn glossy, lighting ấm cinematic. Biểu cảm "đời" rõ ràng — cười khóc ngạc nhiên đều thấy ngay. Không photoreal nhưng vẫn có volume thật.</p>
+            <p><strong>Phù hợp kênh:</strong> Trẻ em, gia đình, story-telling cảm xúc, kênh dạy con. VD: <em>Chó Việt Vào Bếp</em>, truyện cổ tích AI.</p>
+            <p><strong>Prompt cluster:</strong> <code>Pixar 3D animation style, soft volumetric lighting, expressive character animation, warm color palette, family-friendly</code></p>
+            <p><a href="https://www.google.com/search?q=Pixar+3D+animation+style&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+
+            <h4>2. Kawaii / Chibi</h4>
+            <p><strong>Là gì:</strong> Phong cách dễ thương Nhật Bản. Chibi proportions (đầu chiếm 1/3-1/2 thân), mắt cực to long lanh, miệng nhỏ má hồng. Màu pastel (hồng/mint/vàng nhạt). Shape đơn giản mochi-like (mềm bo tròn). Có thể 2D hoặc 3D.</p>
+            <p><strong>Phù hợp kênh:</strong> Teen, gen Z, thú cưng, học tiếng (mascot), đồ ăn dễ thương, skincare/beauty cho teen.</p>
+            <p><strong>Prompt cluster:</strong> <code>kawaii chibi 3D style, big sparkly eyes, pastel color palette, soft mochi rendering, cute mascot design</code></p>
+            <p><a href="https://www.google.com/search?q=kawaii+chibi+3D+style&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+          </div>
+        </div>
+
+        <div class="collapsible" style="margin-top: 8px;">
+          <button class="collapsible-trigger">
+            <span>🎬 Nhóm 3D — xếp theo độ thực TĂNG DẦN (nhóm chính)</span>
+            <span class="collapsible-icon">▼</span>
+          </button>
+          <div class="collapsible-content">
+            <h4>3. 3D (term chung — đừng dùng riêng)</h4>
+            <p><strong>Là gì:</strong> Bất kỳ thứ gì có chiều sâu, không phẳng 2D. Generic term.</p>
+            <p><strong>⚠️ Lưu ý:</strong> ĐỪNG dùng "3D" một mình trong prompt — quá mơ hồ, AI tự đoán → kết quả không kiểm soát được. Luôn cụ thể hơn ("3D realistic" / "3D CGI" / "3D anime"...).</p>
+
+            <h4>4. 3D CG (Computer Graphics)</h4>
+            <p><strong>Là gì:</strong> 3D dựng bằng phần mềm chuyên dụng (Blender, Maya, Cinema 4D). Có thể stylized hoặc realistic. Term thường dùng cho game/general.</p>
+            <p><strong>Phù hợp kênh:</strong> Game showcase, sản phẩm 3D model, kênh kỹ thuật.</p>
+            <p><strong>Prompt cluster:</strong> <code>3D CG render, polished surfaces, clean topology, game asset quality</code></p>
+            <p><a href="https://www.google.com/search?q=3D+CG+computer+graphics+render&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+
+            <h4>5. 3D anime</h4>
+            <p><strong>Là gì:</strong> 3D dựng theo phong cách anime Nhật. Cel-shaded (đổ bóng theo mảng, không gradient mịn), viền nét rõ, mắt to anime, tóc anime nhưng có volume 3D.</p>
+            <p><strong>VD nổi tiếng:</strong> Demon Slayer movie scenes, Spider-Verse (Japanese style), Guilty Gear Strive, Genshin Impact.</p>
+            <p><strong>Phù hợp kênh:</strong> Anime fan, otaku, gaming, kênh nhân vật stylized.</p>
+            <p><strong>Prompt cluster:</strong> <code>3D anime style, cel-shaded rendering, vibrant outline, Japanese animation aesthetic, big expressive eyes</code></p>
+            <p><a href="https://www.google.com/search?q=3D+anime+cel+shaded+style&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+
+            <h4>6. Realistic (term chung)</h4>
+            <p><strong>Là gì:</strong> "Trông như thật" — có thể là photo, painting hyperreal, hoặc 3D photoreal. Term không giới hạn medium.</p>
+            <p><strong>⚠️ Lưu ý:</strong> Hơi mơ hồ. Nên kết hợp cụ thể: "3D realistic" hoặc "photo realistic" hoặc "hyper realistic painting".</p>
+
+            <h4>7. 3D realistic ⭐ (DEFAULT cho hầu hết kênh Việt)</h4>
+            <p><strong>Là gì:</strong> 3D dựng giống thật. Texture chi tiết, lighting physics-based (PBR), không có cel-shading. Vẫn có cảm giác "render" nhẹ chứ không nhầm với ảnh chụp.</p>
+            <p><strong>VD nổi tiếng:</strong> GTA V, RDR2, Uncharted, The Last of Us cutscene.</p>
+            <p><strong>Phù hợp kênh:</strong> Drama, Educational, Product review. <strong>Đây là default cho 90% kênh Việt — bao gồm Lái Xe Né Sai.</strong></p>
+            <p><strong>Prompt cluster:</strong> <code>3D realistic CGI render, photoreal environment, cinematic lighting, physically-based materials</code></p>
+            <p><a href="https://www.google.com/search?q=3D+realistic+CGI+render&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+
+            <h4>8. 3D Semi-realistic</h4>
+            <p><strong>Là gì:</strong> Giữa stylized và photoreal. Proportion gần đúng nhưng features hơi exaggerated (mắt to hơn, hàm sắc hơn). Texture mịn hơn thực, lighting "đẹp hơn thực".</p>
+            <p><strong>VD nổi tiếng:</strong> Overwatch, Valorant characters, Fortnite, Arcane (mix 2D-3D), Apex Legends.</p>
+            <p><strong>Phù hợp kênh:</strong> Gaming, esports, fantasy, story-telling không quá realistic, nhân vật "đẹp hơn đời thực".</p>
+            <p><strong>Prompt cluster:</strong> <code>3D semi-realistic style, stylized features, polished textures, balanced realism, hero shot</code></p>
+            <p><a href="https://www.google.com/search?q=3D+semi+realistic+character+render&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+
+            <h4>9. 3D CGI / CGI</h4>
+            <p><strong>Là gì:</strong> Computer-Generated Imagery cho film/TV/commercial. Cinematic quality, blockbuster aesthetic.</p>
+            <p><strong>VD nổi tiếng:</strong> Avengers, Avatar, Lion King 2019, các TVC cao cấp.</p>
+            <p><strong>Khác 3D CG ở đâu:</strong> CGI thường ám chỉ film/commercial (cinematic), 3D CG dùng cho game/general. CGI = "high-end version" của 3D CG.</p>
+            <p><strong>Prompt cluster:</strong> <code>3D CGI render, cinematic film quality, blockbuster movie aesthetic, premium VFX</code></p>
+            <p><a href="https://www.google.com/search?q=CGI+film+render+blockbuster&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+
+            <h4>10. CGI realistic ⭐ (đỉnh cao, dùng cho kênh nghiêm túc cao cấp)</h4>
+            <p><strong>Là gì:</strong> CGI cấp cao nhất, không phân biệt với thật. Đắt và khó render nhất nhưng output cinematic đỉnh.</p>
+            <p><strong>VD nổi tiếng:</strong> Tigers trong Life of Pi, dinosaurs trong Jurassic World, VFX Marvel cao cấp, quảng cáo siêu xe.</p>
+            <p><strong>Phù hợp kênh:</strong> Documentary, education nghiêm túc, product showcase cao cấp, bất động sản, siêu xe.</p>
+            <p><strong>Prompt cluster:</strong> <code>photoreal CGI, indistinguishable from reality, film-grade VFX, ultra-detailed textures, cinematic lighting</code></p>
+            <p><a href="https://www.google.com/search?q=photoreal+CGI+film+grade&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+          </div>
+        </div>
+
+        <div class="collapsible" style="margin-top: 8px;">
+          <button class="collapsible-trigger">
+            <span>🔬 Nhóm đặc biệt — X-ray</span>
+            <span class="collapsible-icon">▼</span>
+          </button>
+          <div class="collapsible-content">
+            <h4>11. X-ray / 3D X-ray</h4>
+            <p><strong>Là gì:</strong> Phong cách như chụp X-quang. Thấy xương/khung bên trong cơ thể hoặc đồ vật. Đen-trắng-xám với neon outline (thường xanh/lam). 3D X-ray có thể xoay 360°, transparent skin.</p>
+            <p><strong>VD nổi tiếng:</strong> Medical animation, anatomy education, kênh khoa học "bên trong cơ thể", explainer cách hoạt động sản phẩm bên trong.</p>
+            <p><strong>Phù hợp kênh:</strong> Explainer y tế, anatomy education, kênh khoa học, kênh sản phẩm "bên trong sản phẩm" (vd: cách động cơ ô tô hoạt động).</p>
+            <p><strong>Prompt cluster:</strong> <code>X-ray vision style, transparent skeleton view, medical anatomy visualization, blue glow outline, dark background</code></p>
+            <p><a href="https://www.google.com/search?q=3D+xray+medical+animation&tbm=isch" target="_blank" rel="noopener">🔍 Xem ảnh trên Google</a></p>
+          </div>
+        </div>
+
+        <div class="callout tip" style="margin-top: 16px;">
+          <div class="callout-title">💡 Gợi ý chọn style cho kênh Việt</div>
+          <div>
+            <ul>
+              <li><strong>Chăm xe / Đời sống / Drama:</strong> 3D realistic CGI (Lái Xe Né Sai dùng)</li>
+              <li><strong>Ẩm thực / Pet / Gia đình:</strong> Pixar style hoặc 3D semi-realistic (Chó Việt Vào Bếp)</li>
+              <li><strong>Mỹ phẩm / Skincare teen:</strong> Kawaii + pastel</li>
+              <li><strong>Gaming / Esports / Fantasy:</strong> 3D semi-realistic</li>
+              <li><strong>Sản phẩm cao cấp / Bất động sản / Siêu xe:</strong> CGI realistic</li>
+              <li><strong>Y tế / Khoa học / Explainer "bên trong":</strong> 3D X-ray cho phần explainer</li>
+              <li><strong>Otaku / Anime fan:</strong> 3D anime cel-shaded</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `,
+    callouts: [
+      { type: 'tip', title: '💡 Tip', html: 'Trả lời từng câu chậm, suy nghĩ kỹ. Một câu trả lời hời hợt = kênh không có identity. Nếu chưa biết câu nào, bảo AI gợi ý 3 option cho mình chọn.' },
+      { type: 'warn', title: '⚠️ Cấm bỏ qua', html: 'KHÔNG được skip câu 4 (PERSONA) và câu 6 (BỐI CẢNH SIGNATURE) — đây là 2 input chính cho Bước 2 và Bước 3.' }
+    ]
+  },
+
+  // 2 — STEP — Nhân vật chính (Nano Banana trong Flow)
+  {
+    id: 's0b',
+    num: '2',
+    pillLabel: 'Nhân vật chính',
+    tag: 'Bước 2/7',
+    title: '2 · Tạo nhân vật chính trong Flow (Nano Banana)',
+    desc: 'Vào Google Flow → chế độ tạo ảnh (Nano Banana = Gemini 2.5 Flash Image) → gen 6 ảnh nhân vật đa góc. Nano Banana lock character identity rất mạnh. Save 6 ảnh làm reference để upload vào VEO 3 (image-to-video) ở Bước 3 và mọi clip sau.',
+    meta: { time: '~20 phút', tool: 'Google Flow + Nano Banana', output: '6 ảnh ref nhân vật đa góc (PNG)' },
+    actions: [
+      'Quay lại chat ở Bước 1 (chỗ đã có DNA)',
+      'Paste prompt 2.1 bên dưới',
+      'Copy 6 image prompt nhận được (mỗi prompt cho 1 góc)',
+      'Mở <strong>Google Flow</strong> → chọn chế độ tạo ảnh (Nano Banana)',
+      'Paste từng prompt vào Nano Banana → Generate',
+      'Iterate (sửa outfit / lighting / pose) đến khi ra nhân vật như mong muốn',
+      'Mẹo: Nano Banana hỗ trợ chat-edit — gen ảnh đầu xong nói "đổi outfit thành áo đỏ" hoặc "góc nghiêng phải" → nó edit giữ nguyên identity',
+      'Save 6 ảnh vào folder <code>ref-images/[tên-kênh]/</code> (front / 3/4 trái / 3/4 phải / profile / shocked close-up / half-body có prop) — dùng cho VEO 3 ở Bước 3 và mọi clip sau'
+    ],
+    prompt: {
+      title: '📋 Prompt 2.1 — Gen 6 ảnh nhân vật đa góc (Nano Banana)',
+      desc: 'Paste vào cùng chat ở Bước 1 (đã có DNA)',
+      text: `Dựa trên bảng DNA ở trên (đặc biệt câu 4 PERSONA + câu 5 STYLE), sinh 6 image prompt cho <strong>Nano Banana</strong> (Gemini 2.5 Flash Image) trong Google Flow. Mục đích: gen 6 ảnh reference nhân vật chính theo 6 góc khác nhau.
+
+YÊU CẦU:
+- Mỗi prompt 40-60 từ English
+- Cùng 1 nhân vật, cùng outfit (lock hex color từ DNA), cùng lighting, chỉ KHÁC GÓC + BIỂU CẢM
+- Background neutral studio (white seamless / soft gray gradient) để dễ tách subject về sau
+- Style cluster nhất quán: 3D realistic CGI render, photoreal, Vietnam 2026 setting (hoặc theo DNA câu 5)
+
+### ẢNH 1 — Front portrait (default smile)
+[Style cluster] + full-body shot facing camera straight + [face details + age + skin tone + hair style + color] + outfit + signature prop + neutral studio background + soft default smile + photoreal lighting
+
+### ẢNH 2 — 3/4 left view
+Same character, same outfit, same lighting. 3/4 left turn, looking slightly off-camera, confident expression.
+
+### ẢNH 3 — 3/4 right view
+Same character, same outfit, same lighting. 3/4 right turn, friendly smile.
+
+### ẢNH 4 — Profile left
+Same character, same outfit, same lighting. Full profile left side, neutral expression.
+
+### ẢNH 5 — Close-up shocked
+Same character, same outfit. Close-up face, eyes wide open, mouth open in surprise (HOOK expression).
+
+### ẢNH 6 — Half-body + signature prop
+Same character, full outfit visible, holding signature prop in front, standing facing camera, hero pose.
+
+QUY TẮC CỨNG:
+- KHÔNG dùng em dash (—) trong prompt
+- Outfit + accessory + signature prop LOCK chính xác theo DNA câu 4 (kèm hex color)
+- Background studio CỰC SẠCH (không clutter, không text, không brand)
+- Lighting consistent giữa 6 ảnh (cùng key direction + color temperature)
+- Style cluster nhất quán 6 ảnh
+
+Sau output, tôi paste từng prompt vào Nano Banana trong Flow. Ảnh đầu là baseline — các ảnh sau có thể dùng chat-edit "same character, change angle to X" để giữ identity. Nếu chưa ưng → tôi feedback chỗ nào sai → fix prompt → re-gen.`
+    },
+    callouts: [
+      { type: 'rule', title: '✅ Vì sao dùng Nano Banana cho ref nhân vật', html: '<ul><li><strong>Nano Banana</strong> (Gemini 2.5 Flash Image) là model image gen của Google, tích hợp trong Flow</li><li>Character consistency cực mạnh — gen 6 ảnh giữ nguyên identity tốt hơn nhiều so với gen video rồi extract frame</li><li>Hỗ trợ chat-edit: gen xong ảnh 1, bảo "đổi angle / outfit / lighting" → giữ nguyên mặt</li><li>Output đi thẳng vào VEO 3 image-to-video ở Bước 3 (cùng platform Flow, không phải tool riêng)</li></ul>' },
+      { type: 'warn', title: '⚠️ Iterate đến khi ưng', html: 'Step subjective — anh tự thấy ưng thì stop. Ref xấu = mọi clip sau xấu theo. Có thể tốn 3-5 lần gen mỗi ảnh trong Nano Banana mới ưng. Đừng tiếc credit.' },
+      { type: 'tip', title: '💡 Workflow nhanh trong Flow', html: 'Gen ảnh 1 (front) trước → ưng rồi mới gen 2-6 bằng chat-edit ("same character, 3/4 right turn"). Cách này giữ identity tốt hơn gen 6 prompt độc lập.' }
+    ]
+  },
+
+  // 3 — STEP — Test cảnh (Image Nano Banana → Video VEO 3)
+  {
+    id: 's0c',
+    num: '3',
+    pillLabel: 'Test cảnh',
+    tag: 'Bước 3/7',
+    title: '3 · Test 1 cảnh — Image (Nano Banana) → Video (VEO 3)',
+    desc: 'Pipeline trong Flow gồm 2 step nhỏ: (A) Nano Banana tạo ảnh tĩnh cảnh đầu từ image prompt → (B) VEO 3 image-to-video nhận ảnh đó + motion/dialogue prompt → ra video 8s. TÁCH RIÊNG 2 prompt để iterate độc lập (ảnh đẹp nhưng video lỗi → chỉ fix prompt B).',
+    meta: { time: '~30 phút', tool: 'Google Flow (Nano Banana + VEO 3)', output: '2 template VERIFIED: (A) Image prompt + (B) Motion/Voice prompt' },
+    actions: [
+      'Quay lại chat đã có DNA (Bước 1) + 6 ảnh ref nhân vật (Bước 2)',
+      'Paste prompt 3.1 bên dưới',
+      'Nhận 2 prompt TÁCH RIÊNG: <strong>(A) Image prompt</strong> cho Nano Banana + <strong>(B) Motion + Voice prompt</strong> cho VEO 3',
+      '<strong>Step nhỏ A:</strong> Mở Flow → chế độ Nano Banana → paste (A) + upload 1 ảnh ref nhân vật → gen ảnh tĩnh cảnh 1',
+      'Check ảnh: bối cảnh đúng DNA? identity nhân vật khớp? composition đẹp? lighting OK?',
+      'Ảnh chưa ưng → fix prompt (A) → re-gen trong Nano Banana (đừng vội qua step B vì sẽ tốn credit VEO 3)',
+      '<strong>Step nhỏ B:</strong> Khi ảnh đẹp → trong Flow chuyển ảnh sang VEO 3 (image-to-video) → paste prompt (B) → gen video 8s',
+      'Check video: chuyển động mượt? dialogue Việt tự nhiên? SFX khớp? Music vibe đúng?',
+      'Video chưa ưng nhưng ảnh đẹp → chỉ fix prompt (B), giữ ảnh từ A',
+      'Iterate đến khi cảnh ưng → Lưu cả 2 template (A + B) VERIFIED, sẵn sàng đóng gói GPT ở Bước 4'
+    ],
+    prompt: {
+      title: '📋 Prompt 3.1 — Sinh 2 prompt tách: (A) Image Nano Banana + (B) Motion/Voice VEO 3',
+      desc: 'Paste vào cùng chat đã có DNA + 6 ảnh ref nhân vật',
+      text: `Dựa trên DNA kênh + 6 ảnh ref nhân vật đã có ở Bước 2, sinh 2 prompt TÁCH BIỆT cho pipeline Flow:
+
+(A) IMAGE PROMPT → Nano Banana (tạo ảnh tĩnh cảnh 1 HOOK)
+(B) MOTION + VOICE PROMPT → VEO 3 image-to-video (gen video 8s từ ảnh A)
+
+YÊU CẦU: 2 prompt RIÊNG BIỆT, KHÔNG gộp. (A) chỉ mô tả visual tĩnh. (B) chỉ mô tả motion + dialogue + sfx + music.
+
+═══════════════════════════════════════════
+(A) IMAGE PROMPT — Nano Banana
+═══════════════════════════════════════════
+
+Format (English, 1 paragraph):
+
+Vertical 9:16, [bối cảnh chi tiết từ DNA câu 6 — 3-5 elements signature], [vị trí nhân vật trong frame: left/right/center], [pose + biểu cảm peak — SHOCKED cho HOOK]. [In-frame Vietnamese text/sign nếu có]. Lighting: cinematic [warm/cool/golden] matching DNA. Style: 3D realistic CGI render, photoreal environment, Vietnam 2026 setting. Clean composition, leave top 25% empty for text overlay. Negative: brand logo, fake billboard, text overlay clutter, extra people, blurry.
+
+QUY TẮC IMAGE PROMPT (A):
+- KHÔNG re-describe ngoại hình nhân vật (sẽ upload 1 ảnh ref từ Bước 2 làm input cho Nano Banana)
+- Bối cảnh phải có 3-5 elements signature từ DNA, không chung chung
+- Lighting khớp DNA + mood scene
+- Composition tính trước top 25% để chèn text overlay (nếu cần)
+- Negative liệt kê 5-7 thứ cấm
+
+═══════════════════════════════════════════
+(B) MOTION + VOICE-OVER — VEO 3 image-to-video
+═══════════════════════════════════════════
+
+Format CHUẨN (2 dòng + thoại Việt, KHÔNG có section SFX/MUSIC riêng — VEO 3 native gen ambient audio tự nhiên):
+
+MOTION: [1-2 câu English: camera move + character action chính trong 8s]
+
+BEAT 1 — HOOK (tone: [emotion], [vibe], emphasis on "[từ khóa]"):
+"[Thoại Việt 15-20 từ, có dấu, có dấu 3 chấm (…) để pause, có từ đệm cuối câu (nhá / nhé / nha / đấy / nhỉ)]"
+
+QUY TẮC MOTION/VOICE (B):
+- KHÔNG mô tả lại visual / bối cảnh / lighting / style (đã có sẵn trong ảnh A)
+- KHÔNG re-describe nhân vật (đã có trong ảnh upload làm input VEO 3)
+- KHÔNG dùng em dash (—). VEO 3 đọc literal thành "em dash"
+- MOTION 1-2 câu súc tích, 1 verb cho character action
+- Dialogue Việt 15-20 từ cho clip 8s (~20 từ ~ tốc độ nói tự nhiên, không hô)
+- BẮT BUỘC từ đệm cuối câu (nhá / nhé / nha / đấy / nhỉ) — không có thì giọng cứng đơ
+- Dấu 3 chấm (…) Unicode cho pause dialogue (KHÔNG dùng "..." 3 dot ASCII)
+- KHÔNG brand thật (Petrolimex, Honda, Vinmart…)
+- KHÔNG mức phạt cứng (thay "có thể bay màu X-Y củ" cho mềm)
+- KHÔNG cần section SFX/MUSIC riêng (VEO 3 native gen ambient tự nhiên từ ngữ cảnh scene + dialogue)
+
+═══════════════════════════════════════════
+Workflow tôi sẽ chạy
+═══════════════════════════════════════════
+1. Paste (A) vào Nano Banana trong Flow + upload 1 ảnh ref từ Bước 2 → gen ảnh tĩnh cảnh 1
+2. Khi ảnh ưng → trong Flow chuyển ảnh sang VEO 3 (image-to-video) + paste (B) → gen video 8s có audio (dialogue + ambient)
+3. Nếu chưa ưng → feedback cho AI sửa prompt tương ứng (A nếu ảnh xấu, B nếu motion/voice lỗi) → re-gen`
+    },
+    callouts: [
+      { type: 'rule', title: '✅ Pipeline 2 step: Image → Video (có audio)', html: '<ul><li><strong>Step A — Nano Banana:</strong> tạo ảnh tĩnh trước (visual + bối cảnh + nhân vật + composition + lighting)</li><li><strong>Step B — VEO 3 image-to-video:</strong> nhận ảnh A làm input + MOTION + Voice-over → ra video 8s CÓ AUDIO (dialogue + ambient tự nhiên)</li><li>VEO 3 mới <strong>native gen audio</strong> — KHÔNG cần ElevenLabs riêng, KHÔNG cần SFX/MUSIC section riêng</li><li>Cả 2 đều trong <strong>Google Flow</strong>, cùng platform</li><li>Tách 2 prompt = iterate độc lập (video lỗi, ảnh đẹp → chỉ fix B)</li></ul>' },
+      { type: 'tip', title: '💡 Mẹo tiết kiệm credit', html: 'Gen ảnh (Nano Banana) rẻ hơn gen video (VEO 3) nhiều. Iterate ảnh đến khi đẹp HẲN rồi mới chuyển sang gen video. Đừng gen video khi ảnh chưa ưng — phí credit VEO 3.' }
+    ]
+  },
+
+  // 4 — STEP — Đóng gói Custom GPT cho VEO 3
+  {
+    id: 's0e',
+    num: '4',
+    pillLabel: 'Đóng gói GPT',
+    tag: 'Bước 4/7',
+    title: '4 · Đóng gói Custom GPT cho VEO 3',
+    desc: 'Gom DNA + 6 ảnh ref nhân vật + 2 template VERIFIED (Image A + MOTION/Voice B) → build Custom GPT private. Sau bước này, mỗi clip mới chỉ paste 1 topic vào GPT → ra kịch bản đầy đủ 4 phần với 2 BLOCK (Block 1 Image prompts / Block 2 MOTION+Voice-over) + cover brief.',
+    meta: { time: '~20 phút', tool: 'Claude/ChatGPT + GPT Editor', output: 'Custom GPT + SYSTEM_PROMPT.md' },
+    actions: [
+      'Chuẩn bị: bảng DNA (Bước 1) + 6 ảnh ref (Bước 2) + 2 template VERIFIED (Image A + Motion/Voice B) từ Bước 3',
+      'Paste prompt 4.1 bên dưới vào Claude/ChatGPT',
+      'Nhận file SYSTEM_PROMPT.md đầy đủ 6 thành phần',
+      'Vào ChatGPT → Explore GPTs → Create → Configure',
+      'Paste SYSTEM_PROMPT.md vào ô Instructions',
+      'Upload 6 ảnh ref nhân vật vào Knowledge (để GPT biết hình nhân vật, không re-describe)',
+      'Save GPT (private)'
+    ],
+    prompt: {
+      title: '📋 Prompt 4.1 — Đóng gói SYSTEM_PROMPT.md cho pipeline Flow (Nano Banana + VEO 3)',
+      desc: 'Paste vào Claude/ChatGPT để sinh file system prompt',
+      text: `Tôi đã hoàn thành 3 bước:
+- Bước 1: DNA kênh đầy đủ
+- Bước 2: 6 ảnh ref nhân vật chính (gen Nano Banana / Flow)
+- Bước 3: 2 template VERIFIED — (A) Image prompt cho Nano Banana + (B) MOTION + Voice-over cho VEO 3 image-to-video
+
+Tổng hợp:
+
+DNA KÊNH:
+[paste bảng DNA từ Bước 1]
+
+6 ẢNH REF NHÂN VẬT (đa góc, từ Bước 2):
+[list 6 filename, vd: front.png / 34_right.png / profile_left.png / shocked_closeup.png / half_body_prop.png]
+
+TEMPLATE (A) — IMAGE PROMPT cho Nano Banana VERIFIED:
+[paste template từ Bước 3 phần A]
+
+TEMPLATE (B) — MOTION + VOICE-OVER cho VEO 3 VERIFIED:
+[paste template từ Bước 3 phần B]
+
+NOTE PILOT (từ test thực tế trong Flow):
+- Hook pattern hiệu quả: [...]
+- Lighting đẹp với Nano Banana: [...]
+- Camera move + dialogue tự nhiên với VEO 3: [...]
+- Anti-pattern cấm: [...]
+
+Sinh file SYSTEM_PROMPT.md ĐẦY ĐỦ 6 THÀNH PHẦN để upload vào ChatGPT GPT Editor. Output phải khớp format gốc 2 BLOCK riêng (Block 1 Image prompts cho TẤT CẢ cảnh, Block 2 MOTION + Voice-over cho TẤT CẢ cảnh — KHÔNG xen kẽ A-B mỗi cảnh).
+
+## 1. ROLE
+GPT là content creator kênh [TÊN KÊNH], sinh kịch bản theo DNA + công thức đã pilot. Mỗi topic user nhập → output kịch bản video (số cảnh LINH HOẠT 3-6 theo độ phức tạp topic) + cover brief, format chuẩn cho pipeline Flow (Nano Banana tạo ảnh → VEO 3 image-to-video tạo video có audio).
+
+## 2. PERSONA (đã có 6 ảnh ref nhân vật — KHÔNG re-describe trong bất kỳ prompt nào)
+[Tagline 20 từ về persona. NHẮC RÕ: prompt scene KHÔNG mô tả ngoại hình/đồng phục/mũ/râu/kính — Nano Banana + VEO 3 lock identity qua ảnh ref upload thủ công.
+4 biểu cảm chuẩn (gắn beat): ngạc nhiên/shocked (Hook) / cười hé răng (Setup, Resolution) / bức xúc miệng O (Stakes) / thumbs up nheo mắt (CTA).]
+
+## 3. STYLE & BỐI CẢNH SIGNATURE
+**Style BẮT BUỘC mọi cảnh**: [Cụm style cluster, vd: "3D realistic CGI render, photoreal environment, cinematic lighting, Vietnam 2026 setting"]. Mỗi Image prompt PHẢI chứa nguyên cụm này.
+
+**Bối cảnh signature** (5-7 elements lặp để nhận diện kênh):
+[Liệt kê 5-7 elements từ DNA câu 6, vd: biển số xe trắng/vàng định dạng VN, biển báo Quy chuẩn 41 chữ Việt có dấu, kiến trúc nhà ống/phố cổ, dây điện chằng, motorbike blur, thời tiết tropical/sương HN, CSGT VN, xe phổ thông VN không brand]
+
+## 4. OUTPUT — 4 PHẦN BẮT BUỘC
+
+### PHẦN 1 — THỂ LOẠI & ANGLE
+- Thể loại / Angle viral / Tâm lý người xem / Mức thiệt hại (caveat mềm "có thể bay màu X-Y củ" hoặc "có thể bị phạt tới X-Y triệu")
+
+### PHẦN 2 — KỊCH BẢN (số cảnh LINH HOẠT 3-6 theo topic)
+Mỗi cảnh 8s. Dialogue ~18-20 từ/cảnh (tốc độ nói tự nhiên). KHÔNG miêu tả ngoại hình nhân vật.
+
+Số cảnh: tối thiểu 3, tối đa 6, default 4-5. Topic ngắn → 3-4. Topic kỹ → 5-6. KHÔNG nhồi cảnh thừa.
+
+Beat structure (gộp linh hoạt theo số cảnh):
+- 3 cảnh: HOOK → STAKES+RESOLUTION → CTA+OUTRO
+- 4 cảnh: HOOK → SETUP → RESOLUTION → CTA+OUTRO
+- 5 cảnh: HOOK → SETUP → STAKES → RESOLUTION → CTA+OUTRO
+- 6 cảnh: HOOK → SETUP → STAKES → ANALYSIS → RESOLUTION → CTA+OUTRO
+
+**Cảnh cuối LUÔN là CTA+OUTRO + slogan kênh BẮT BUỘC** (vd: "Lái xe né sai").
+
+**Format BẮT BUỘC chia 2 BLOCK lớn (không xen kẽ):**
+
+═══════════════════════════
+📦 Block 1 — Image prompt (paste Nano Banana)
+═══════════════════════════
+Cảnh 1: [English, 1 paragraph: bối cảnh signature VN từ DNA + vị trí nhân vật + pose + biểu cảm peak + (in-frame Vietnamese text/sign nếu có) + cụm style cluster + Negative: 5-7 token]
+Cảnh 2: ...
+Cảnh N: ...
+
+═══════════════════════════
+📦 Block 2 — MOTION + Voice-over (paste VEO 3 image-to-video sau khi đã có ảnh)
+═══════════════════════════
+MOTION: [1-2 câu English: camera move + character action]
+BEAT 1 — HOOK (tone: [emotion], [vibe], emphasis on "[từ khóa]"):
+"[Thoại Việt 15-20 từ, có dấu, có dấu 3 chấm (…) pause, có từ đệm cuối câu]"
+
+MOTION: [...]
+BEAT 2 — SETUP (tone: ...):
+"[Thoại]"
+
+... (đủ N cảnh)
+
+### PHẦN 3 — COVER BRIEF
+Tiêu đề 2 DÒNG UPPERCASE (pattern "tình huống / câu hỏi"), font Bebas Neue đậm in hoa viền đen, bảng màu 3 hex code theo DNA, composition 3 lớp foreground-midground-background, clean 4 corners (KHÔNG sticker badge, KHÔNG brand logo).
+
+### PHẦN 4 — SERIES & PRODUCT
+3 idea series tiếp / Product Shopee aff nếu chăm xe / Hashtag #[Brand] #[Topic] #[Niche] #[Tag chung] / Caption hook 1-2 câu
+
+## 5. NGUYÊN TẮC CỨNG
+
+**Visual / Image prompt (Block 1):**
+- BẮT BUỘC English. Text in-frame Việt có dấu (vd: license plate "30A-12345", traffic sign P.131a "Cấm đỗ xe")
+- KHÔNG re-describe nhân vật (ảnh ref upload riêng)
+- KHÔNG tự vẽ billboard / LED / bảng treo bịa ("PHẠT NGUỘI" / "CHỐT CSGT"...) — chỉ dùng biển báo CHUẨN (Quy chuẩn 41 nếu kênh giao thông VN: P.xxx/W.xxx/R.xxx/I.xxx)
+- Cảnh 1 (HOOK): top 25% empty cho text overlay hậu kỳ
+- Mỗi prompt PHẢI có cụm style cluster đầy đủ
+- Negative giữ GỌN 5-7 token (vd: brand logo, fake billboard, text overlay, blurry, extra people)
+- BỐI CẢNH KHỚP TOPIC, KHÔNG ép GARAGE/setting cứng vào cảnh không liên quan
+- HẠN CHẾ CABIN: tối đa 1 cảnh/clip nhân vật ngồi trong xe. Default đứng ngoài show full body + bối cảnh thực
+- NGUYÊN TẮC TRỰC QUAN: beat nói cái gì → frame SHOW THẲNG cái đó tại bối cảnh THẬT (đèn vàng → cột đèn giao thông VN đèn vàng / vạch kẻ liền → vạch vàng-trắng trên mặt đường / biển cấm → biển P.xxx treo đúng vị trí)
+
+**Motion + Voice-over (Block 2):**
+- MOTION 1-2 câu English súc tích, 1 verb cho character action
+- KHÔNG mô tả lại visual / lighting / style (đã có trong ảnh từ Block 1)
+- KHÔNG dùng em dash (—) trong cả MOTION lẫn dialogue (VEO 3 đọc literal)
+- Dialogue Việt 15-20 từ cho clip 8s (tốc độ nói tự nhiên, không hô)
+- BẮT BUỘC từ đệm cuối câu (nhá / nhé / nha / đấy / nhỉ / luôn) — không có thì giọng cứng đơ
+- Dấu 3 chấm (…) Unicode cho pause dialogue (KHÔNG dùng "..." 3 dot ASCII)
+- KHÔNG mức phạt cứng (thay "có thể bay màu X-Y củ" / "có thể bị phạt tới X-Y triệu" cho mềm)
+- KHÔNG brand thật (Petrolimex, Honda, Vinmart…)
+- KHÔNG cần section SFX/MUSIC riêng (VEO 3 native gen ambient + dialogue audio tự nhiên từ scene context)
+- Cảnh cuối BẮT BUỘC có slogan kênh
+
+**Style giọng (theo DNA câu 3 + 9):**
+- Xưng hô theo persona (vd Anh Né: "em né"/"anh né"; gọi "anh em"/"các bác"/"các chị em")
+- Slang đặc trưng từ DNA (vd kênh xe: "bay màu" / "củ" / "đi ngay bắt phở" / "toang ví")
+- Hook pattern: "tình huống cụ thể + câu hỏi", KHÔNG chung chung
+- [Bổ sung anti-pattern từ pilot]
+
+## 6. QUY TẮC RESPONSE
+- Topic mơ hồ → clarify 1 câu
+- Ngoài scope DNA (vd kênh xe ô tô mà hỏi xe máy/tải/khách) → từ chối lịch sự
+- 1 response = 1 video full (4 phần)
+- Variant request → giữ topic, đổi angle/hook
+- Luật mới chưa chắc → caveat "có thể bị phạt tới..."
+
+Output Markdown đầy đủ sẵn paste vào ChatGPT GPT Instructions.`
+    },
+    callouts: [
+      { type: 'rule', title: '✅ 6 thành phần bắt buộc trong SYSTEM_PROMPT', html: '<ul><li><strong>1. ROLE</strong> — GPT output kịch bản 2 BLOCK + cover</li><li><strong>2. PERSONA</strong> — có 6 ảnh ref, KHÔNG re-describe, 4 biểu cảm gắn beat</li><li><strong>3. STYLE & BỐI CẢNH</strong> — style cluster + 5-7 elements signature DNA (VN 2026 nếu kênh Việt)</li><li><strong>4. OUTPUT 4 PHẦN</strong> — Thể loại / Kịch bản 2 BLOCK (số cảnh 3-6 linh hoạt) / Cover / Series</li><li><strong>5. NGUYÊN TẮC CỨNG</strong> — Visual rules + Motion/Voice rules + Style giọng + Bối cảnh khớp topic + Hạn chế cabin + Trực quan</li><li><strong>6. QUY TẮC RESPONSE</strong> — clarify mơ hồ, từ chối ngoài scope</li></ul>Format gốc 2 BLOCK riêng (Block 1 Image cho TẤT CẢ cảnh / Block 2 MOTION+Voice cho TẤT CẢ cảnh) — KHÔNG xen kẽ A-B mỗi cảnh.' },
+      { type: 'tip', title: '➡️ Bước tiếp theo', html: 'Build xong GPT thì sang <strong>Bước 5 — Test GPT chuẩn output</strong>.' }
+    ],
+    example: 'output-example'
+  },
+
+  // 5 — STEP — Test GPT chuẩn output
+  {
+    id: 's5',
+    num: '5',
+    pillLabel: 'Test GPT',
+    tag: 'Bước 5/7',
+    title: '5 · Test GPT chuẩn output',
+    desc: 'Smoke test Custom GPT vừa build — paste 1 topic mới, check structure output có đúng format VEO 3 chưa. Đây là verify cấp 1 (check structure trên giấy, chưa gen video).',
+    meta: { time: '~10 phút', tool: 'Custom GPT', output: 'GPT structure verified' },
+    actions: [
+      'Mở Custom GPT đã build ở Bước 4',
+      'Paste 1 topic HOÀN TOÀN MỚI (chưa nói trong setup)',
+      'Check output ĐỦ 4 phần (Thể loại & Angle / Kịch bản 2 BLOCK / Cover / Series)',
+      'Check Kịch bản có format <strong>2 BLOCK riêng</strong>: Block 1 Image prompt (Cảnh 1 → N) + Block 2 MOTION + Voice-over (Cảnh 1 → N) — KHÔNG xen kẽ A-B',
+      'Check số cảnh hợp lý (3-6, không nhồi cảnh thừa). Beat structure khớp số cảnh.',
+      'Check Block 1 mỗi cảnh: English paragraph, có cụm style cluster đầy đủ, có Negative 5-7 token, KHÔNG re-describe nhân vật',
+      'Check Block 1 bối cảnh KHỚP TOPIC (không ép GARAGE), có signature VN 2026 (biển số, biển báo Quy chuẩn 41, kiến trúc...)',
+      'Check Block 1 Cảnh 1 (HOOK): top 25% empty cho text overlay',
+      'Check Block 2 mỗi cảnh: MOTION 1-2 câu English + BEAT N — TÊN (tone): "thoại Việt"',
+      'Check dialogue: KHÔNG em dash, CÓ dấu 3 chấm (…), CÓ từ đệm cuối câu (nhá / nhé / nha / đấy), 15-20 từ',
+      'Check cảnh cuối CTA+OUTRO có slogan kênh BẮT BUỘC (vd "Lái xe né sai")',
+      'Check cover brief: tiêu đề 2 dòng UPPERCASE / font / 3 màu hex / 3 lớp / clean 4 corners',
+      'Test thêm 2-3 topic đa dạng (drama / educational / product / luật) cho chắc'
+    ],
+    callouts: [
+      { type: 'rule', title: '✅ Đạt structure → sang Bước 6', html: 'GPT output đúng format 2 BLOCK rồi, sang <strong>Bước 6 — Test gen thực tế trong Flow</strong> để verify chất lượng ảnh + video.' },
+      { type: 'danger', title: '🔁 Lệch structure → quay Bước 4 sửa', html: 'Mở GPT Editor, edit Instructions theo điểm lệch:<ul><li>Xen kẽ A-B mỗi cảnh thay vì 2 BLOCK riêng → thêm rule "Block 1 cho TẤT CẢ cảnh trước, Block 2 sau" vào mục 4</li><li>Thiếu cụm style cluster trong Image prompt → strengthen mục 3 + mục 5</li><li>Re-describe nhân vật → strengthen rule mục 5</li><li>Dialogue có em dash / thiếu từ đệm → thêm anti-pattern mục 5</li><li>Bối cảnh ép GARAGE / thiếu signature VN → tinh chỉnh mục 3</li><li>Cảnh cuối thiếu slogan → thêm rule mục 4 PHẦN 2</li></ul>Save GPT → quay lại đầu Bước 5 test lại.' }
+    ]
+  },
+
+  // 6 — STEP — Test gen thực tế trong Flow
+  {
+    id: 's6',
+    num: '6',
+    pillLabel: 'Test thật',
+    tag: 'Bước 6/7',
+    title: '6 · Test gen thực tế trong Flow (Nano Banana → VEO 3)',
+    desc: 'Verify cấp 2: lấy 1 CẶP prompt từ GPT output (Bước 5) → gen ảnh trong Nano Banana → ưng → gen video trong VEO 3. Đây là cổng verify cuối cùng trước khi production.',
+    meta: { time: '~15-20 phút', tool: 'Google Flow (Nano Banana + VEO 3)', output: 'Ảnh + Video verified · GPT ready' },
+    actions: [
+      'Từ output GPT (Bước 5): copy Image prompt cảnh 1 (Block 1) + MOTION/BEAT cảnh 1 (Block 2)',
+      '<strong>Step A — Nano Banana:</strong> Mở Google Flow → chế độ tạo ảnh (Nano Banana) → paste Image prompt cảnh 1 + upload 1 ảnh ref nhân vật (Bước 2) → gen ảnh tĩnh',
+      'Check ảnh: bối cảnh đúng DNA + signature VN? identity nhân vật khớp? composition đẹp? top 25% trống (cho HOOK)?',
+      'Ảnh chưa OK → ghi note điểm lệch → quay Bước 4 sửa template Image trong SYSTEM_PROMPT → re-test',
+      '<strong>Step B — VEO 3:</strong> Ảnh OK → trong Flow chuyển ảnh sang VEO 3 (image-to-video) → paste MOTION + BEAT thoại cảnh 1 → gen video 8s (VEO 3 native gen audio: dialogue + ambient)',
+      'Check video: chuyển động mượt theo MOTION? Dialogue Việt tự nhiên (có dấu, có từ đệm, không em dash)? Ambient audio khớp?',
+      'CẢ ẢNH + VIDEO OK → test thêm 1-2 cảnh khác (Setup / Resolution) cho chắc → ĐẠT → sang Bước 7',
+      'Video chưa OK nhưng ảnh OK → quay Bước 4 chỉ sửa template MOTION/Voice (Block 2), giữ Image',
+      'Cả ảnh lẫn video đều chưa OK → quay Bước 4 sửa cả Block 1 + Block 2'
+    ],
+    callouts: [
+      { type: 'rule', title: '✅ Đạt → Bước 7 dùng luôn', html: 'Ảnh đẹp + Video chuyển động mượt + dialogue tự nhiên → GPT ready production. Sang Bước 7 lock workflow.' },
+      { type: 'danger', title: '🔁 Chưa đạt → loop về Bước 4 sửa SYSTEM_PROMPT', html: 'Edit SYSTEM_PROMPT theo điểm lệch + tách rõ A/B:<ul><li><strong>Nhân vật drift identity (cả ảnh + video)</strong> → strengthen rule "KHÔNG re-describe" trong cả (A) và (B)</li><li><strong>Ảnh đẹp nhưng video lỗi dialogue / camera</strong> → chỉ sửa template (B), không động (A)</li><li><strong>Ảnh xấu / bối cảnh sai</strong> → sửa template (A) — thêm element DNA, fix lighting spec</li><li><strong>Dialogue cứng đơ</strong> → tinh chỉnh rule từ đệm + dấu 3 chấm trong (B)</li><li><strong>SFX/music không khớp</strong> → cải thiện section SFX + Music trong (B)</li></ul>Save GPT → quay Bước 5 test structure → Bước 6 test thực tế lại.' }
+    ]
+  },
+
+  // 7 — STEP — Dùng luôn
+  {
+    id: 's7',
+    num: '7',
+    pillLabel: 'Dùng luôn',
+    isDone: true,
+    tag: 'Bước 7/7',
+    title: '7 · Dùng GPT cho mọi clip mới',
+    desc: '',
+    customHtml: `
+      <div class="done-banner">
+        <div class="done-icon">✓</div>
+        <div class="done-title">Custom GPT sẵn sàng!</div>
+        <div class="done-desc">Mỗi clip mới: paste 1 topic vào Custom GPT → ra kịch bản 2 BLOCK (Image prompts + MOTION/Voice-over) cho 3-6 cảnh + cover brief → Flow gen từng cảnh (Nano Banana tạo ảnh → VEO 3 image-to-video tạo video có audio) → ráp lại → đăng. Không cần làm lại Bước 1-6.</div>
+      </div>
+    `,
+    callouts: [
+      { type: 'tip', title: '💡 Workflow sản xuất mỗi clip mới', html: '<ol><li>Paste topic mới vào Custom GPT (Bước 4)</li><li>Nhận output 4 phần (Thể loại / Kịch bản 2 BLOCK / Cover / Series)</li><li>Mở Google Flow → Nano Banana: paste từng Image prompt (Block 1) + upload 1 ảnh ref nhân vật → gen 3-6 ảnh tĩnh (song song được)</li><li>Chuyển từng ảnh sang VEO 3 (image-to-video) + paste MOTION + BEAT thoại tương ứng (Block 2) → gen 3-6 video 8s (VEO 3 native gen audio)</li><li>Ráp các clip thành video ~25-50s 9:16 (CapCut / Premiere / tool tùy chọn)</li><li>Làm cover theo brief từ GPT output (Canva / tool tùy chọn)</li><li>Đăng / schedule 4 platform (TikTok / IG Reels / FB Reels / YT Shorts)</li></ol>' },
+      { type: 'tip', title: '⏰ Khung giờ vàng đăng bài (tham khảo)', html: '<ul><li><strong>TikTok</strong>: 12h, 18-22h</li><li><strong>IG Reels</strong>: 11h, 19-21h</li><li><strong>FB Reels</strong>: 13h, 19-21h</li><li><strong>YT Shorts</strong>: 15h, 20h</li></ul><p style="margin-top: 10px;"><strong>⚠️ Lưu ý:</strong> Khung trên chỉ là số liệu chung cho người Việt nói chung. <strong>Giờ vàng thực tế phụ thuộc vào kênh của anh</strong> — niche khác nhau có audience khác nhau, peak khác nhau (vd: kênh ô tô peak sáng đi làm 7-8h, kênh ẩm thực peak trước bữa cơm 10-11h hoặc 17-18h, kênh mẹ-bé peak khi con ngủ 21-22h, kênh học sinh peak buổi tối 19-22h hoặc cuối tuần).</p><p style="margin-top: 8px;">💡 <strong>Tip nhanh tìm giờ vàng riêng:</strong> <em>Giờ chính anh thường rảnh lướt MXH = giờ audience của anh cũng đang lướt = giờ vàng thật của kênh anh.</em> Quan sát chính mình + analytics Buffer/TikTok Studio sau 2 tuần đăng → tinh chỉnh dần.</p>' },
+      { type: 'rule', title: '✅ Khi nào quay lại làm Bước 1-6', html: '<ul><li>Đổi DNA kênh (audience / tone / persona) → quay <strong>Bước 1</strong></li><li>Nhân vật bị drift identity sau nhiều clip → re-gen 6 ảnh ref ở <strong>Bước 2</strong></li><li>Nano Banana / VEO 3 ra version mới → re-verify công thức ở <strong>Bước 3</strong></li><li>Pivot format / output lệch dần → update SYSTEM_PROMPT ở <strong>Bước 4</strong></li></ul>' }
+    ]
+  }
+];
+
+// =============== EXAMPLE OUTPUT (format gốc Lái Xe Né Sai) ===============
+const EXAMPLE_OUTPUT_HTML = `
+<h4>PHẦN 1 — THỂ LOẠI & ANGLE</h4>
+<p><strong>Thể loại:</strong> Chăm xe ô tô / Product video<br>
+<strong>Angle viral:</strong> Chuột cắn dây khoang máy. Mất vài chục củ chỉ vì để xe qua đêm sai cách<br>
+<strong>Tâm lý người xem:</strong> Sợ hỏng dây điện, ám mùi, xe báo lỗi, toang ví<br>
+<strong>Mức thiệt hại:</strong> Có thể bay màu vài triệu tới vài chục củ nếu cắn dây điện, ống nước, cảm biến nhá</p>
+
+<h4>PHẦN 2 — KỊCH BẢN 5 CẢNH</h4>
+<p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px;">Output chia 2 BLOCK riêng. <strong>Block 1 (Image prompt)</strong> = paste vào Nano Banana gen ảnh tĩnh từng cảnh. <strong>Block 2 (MOTION + Voice-over)</strong> = sau khi có ảnh, paste vào VEO 3 image-to-video gen video 8s có audio.</p>
+
+<p style="margin-top: 12px;"><strong>📦 Block 1 — Image prompt (English, paste vào Nano Banana):</strong></p>
+
+<div class="scene-block"><strong>Cảnh 1:</strong> Vertical 9:16 keyframe inside GARAGE ANH NÉ, car hood open, engine bay foreground bottom-right with visible chewed cable sleeve, small rat footprints on dusty plastic cover, Anh Né standing left of the open hood pointing shocked at the damage, eyes wide and mouth open surprised expression, clean composition, leave top 25% empty for post-production text overlay, NO in-scene billboards with Vietnamese text, 3D realistic CGI render, photoreal environment, cinematic lighting, Vietnam 2026 setting. Negative: brand logo, fake billboard, text overlay, blurry, extra people.</div>
+
+<div class="scene-block"><strong>Cảnh 2:</strong> Vertical 9:16 realistic Vietnamese apartment parking basement in 2026, white sedan license plate "51K-12345" parked near trash bags and food crumbs, Anh Né standing beside front bumper holding a small flashlight toward the wheel arch, one hand raised explaining, warm practical lighting, concrete pillars with Vietnamese parking signs, 3D realistic CGI render, photoreal environment, cinematic lighting, Vietnam 2026 setting. Negative: brand logo, fake billboard, clutter, animals attacking, low quality.</div>
+
+<div class="scene-block"><strong>Cảnh 3:</strong> Vertical 9:16 close-up under open car hood in GARAGE ANH NÉ, chewed wire harness and insulation foam clearly visible, warning triangle tool light on engine cover, Anh Né center-right with frustrated O-mouth expression, right index finger wagging toward camera, cobalt blue wall and yellow-orange "GARAGE ANH NÉ" sign blurred behind, 3D realistic CGI render, photoreal environment, cinematic lighting, Vietnam 2026 setting. Negative: gore, brand logo, fake text, messy frame, blur.</div>
+
+<div class="scene-block"><strong>Cảnh 4:</strong> Vertical 9:16 inside GARAGE ANH NÉ product demo shelf, Anh Né reaches to left product shelf and holds an unbranded anti-rat engine bay spray bottle, other cleaning tools neatly arranged, open hood car behind him, he sprays lightly around engine bay edges away from hot parts, friendly confident smile, 3D realistic CGI render, photoreal environment, cinematic lighting, Vietnam 2026 setting. Negative: brand logo, over-spray, smoke, fake billboard, unsafe fire.</div>
+
+<div class="scene-block"><strong>Cảnh 5:</strong> Vertical 9:16 outside a Vietnamese street parking spot in morning sunlight, houses, wires, motorbike blur, white sedan license plate "30A-67890" parked cleanly, Anh Né standing front-center giving thumbs up and winking, holding spray bottle in left hand, engine hood closed, clean street background with Vietnamese traffic sign P.131a "Cấm đỗ xe" visible far side, 3D realistic CGI render, photoreal environment, cinematic lighting, Vietnam 2026 setting. Negative: brand logo, sticker badge, fake billboard, crowded frame, blurry.</div>
+
+<p style="margin-top: 14px;"><strong>📦 Block 2 — MOTION + Voice-over (paste vào VEO 3 image-to-video sau khi đã có ảnh tương ứng):</strong></p>
+
+<div class="scene-block"><strong>MOTION:</strong> Slow dolly-in toward open hood, Anh Né snaps his head from engine bay to camera and points at chewed wires.<br>
+<strong>BEAT 1 — HOOK</strong> (tone: shocked, cảnh báo nhanh, emphasis on "chuột cắn dây"):<br>
+"Để xe qua đêm, sáng ra chuột cắn dây khoang máy. Một phát thôi là toang ví luôn nhá!"</div>
+
+<div class="scene-block"><strong>MOTION:</strong> Handheld-style tracking beside parked car, Anh Né shines flashlight at wheel arch, then points toward food crumbs near the parking spot.<br>
+<strong>BEAT 2 — SETUP</strong> (tone: giải thích thân thiện, emphasis on "mùi đồ ăn"):<br>
+"Chuột khoái chỗ ấm, tối, có mùi đồ ăn. Khoang máy ô tô đúng kiểu khách sạn năm sao đấy nhé."</div>
+
+<div class="scene-block"><strong>MOTION:</strong> Tight push-in on damaged wire, Anh Né wags finger and leans toward camera with frustrated expression.<br>
+<strong>BEAT 3 — STAKES</strong> (tone: bức xúc, emphasis on "vài chục củ"):<br>
+"Nó cắn dây cảm biến, ống nước, cách âm. Nhẹ thì vài củ, nặng bay màu vài chục củ luôn nhá."</div>
+
+<div class="scene-block"><strong>MOTION:</strong> Static medium shot, Anh Né takes spray from shelf, demonstrates gentle spray around safe outer engine bay areas.<br>
+<strong>BEAT 4 — RESOLUTION</strong> (tone: practical, reassuring, emphasis on "xịt định kỳ"):<br>
+"Mẹo của anh né. Dọn sạch rác, không để đồ ăn, rồi xịt chống chuột định kỳ quanh khoang máy nha."</div>
+
+<div class="scene-block"><strong>MOTION:</strong> Slow pull-back, Anh Né gives thumbs up, winks, raises spray bottle slightly, then waves goodbye.<br>
+<strong>BEAT 5 — CTA + OUTRO</strong> (tone: vui, chốt gọn, emphasis on "Lái xe né sai"):<br>
+"Muốn đỡ đi ngay bắt phở với gara, phòng trước vẫn rẻ hơn sửa nhá. Lái xe né sai. Chào các bác nha."</div>
+
+<h4>PHẦN 3 — COVER BRIEF</h4>
+<p><strong>Tiêu đề 2 dòng:</strong> CHUỘT CẮN KHOANG MÁY / MẤT BAO NHIÊU CỦ?<br>
+Font Bebas Neue đậm in hoa, viền đen. Màu vàng-cam <code>#F7941D</code>, đỏ <code>#E53935</code>, cobalt <code>#15326E</code>. Foreground: dây điện khoang máy bị cắn. Midground: Anh Né chỉ tay hoảng hốt. Background: GARAGE ANH NÉ, hood mở, ánh sáng vàng ấm. Clean 4 corners, không sticker badge, không brand logo.</p>
+
+<h4>PHẦN 4 — SERIES & PRODUCT</h4>
+<p><strong>Series:</strong> 1. Xe có mùi chuột xử lý sao. 2. Rửa khoang máy có hại điện không. 3. Đỗ xe lâu ngày cần làm gì<br>
+<strong>Product Shopee:</strong> Chai xịt chống chuột khoang máy FOCAR / EcoAVN theo workflow chăm xe<br>
+<strong>Hashtag:</strong> <code>#LaiXeNeSai #ChuotKhoangMay #ChamXeOTo #DanLai4Banh</code><br>
+<strong>Caption:</strong> Chuột vào khoang máy không chỉ hôi đâu. Cắn một phát là bay màu vài chục củ nhá.</p>
+`;
+
+// =============== STATE ===============
+let activePill = 0;
+let checkState = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+// =============== HELPERS ===============
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function highlightPlaceholders(str) {
+  // Wrap [TEXT IN BRACKETS] với class placeholder
+  return str.replace(/\[([^\]]+)\]/g, '<span class="placeholder">[$1]</span>');
+}
+
+function getActionId(stepIdx, actionIdx) {
+  return STEPS[stepIdx].id + '-a' + actionIdx;
+}
+
+function isStepDone(stepIdx) {
+  const step = STEPS[stepIdx];
+  if (!step.actions || step.actions.length === 0) return false;
+  return step.actions.every((_, i) => checkState[getActionId(stepIdx, i)]);
+}
+
+function totalActions() {
+  return STEPS.reduce((sum, s) => sum + (s.actions ? s.actions.length : 0), 0);
+}
+
+function checkedCount() {
+  return Object.values(checkState).filter(Boolean).length;
+}
+
+function updateProgress() {
+  const total = totalActions();
+  const checked = checkedCount();
+  const pct = total === 0 ? 0 : Math.round((checked / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = pct + '%';
+}
+
+// =============== RENDER ===============
+function renderStepper() { /* stepper bar removed — single page scroll */ }
+
+function renderStepContent(step, idx) {
+  let html = '';
+
+  // Header
+  const tagCls = step.tagClass ? ' ' + step.tagClass : '';
+  html += `<div class="step-tag${tagCls}">${step.tag}</div>`;
+  html += `<h1 class="step-title">${step.title}</h1>`;
+  if (step.desc) html += `<p class="step-desc">${step.desc}</p>`;
+
+  // Meta
+  if (step.meta) {
+    html += `
+      <div class="step-meta">
+        <div class="meta-item"><span class="meta-icon">⏱</span><span class="meta-label">Thời gian:</span> <span class="meta-value">${step.meta.time}</span></div>
+        <div class="meta-item"><span class="meta-icon">🛠</span><span class="meta-label">Tool:</span> <span class="meta-value">${step.meta.tool}</span></div>
+        <div class="meta-item"><span class="meta-icon">📤</span><span class="meta-label">Output:</span> <span class="meta-value">${step.meta.output}</span></div>
+      </div>
+    `;
+  }
+
+  // Custom HTML (intro / done)
+  if (step.customHtml) html += step.customHtml;
+
+  // Actions
+  if (step.actions && step.actions.length > 0) {
+    html += `<div class="card">
+      <div class="card-title"><span class="card-title-icon">✅</span>Checklist hành động</div>
+      <div class="action-list">`;
+    step.actions.forEach((text, i) => {
+      const id = getActionId(idx, i);
+      const checked = checkState[id] ? ' checked' : '';
+      const doneClass = checkState[id] ? ' done' : '';
+      html += `
+        <div class="action-item${doneClass}" data-aid="${id}">
+          <input type="checkbox" id="${id}" data-aid="${id}"${checked}>
+          <label for="${id}">${text}</label>
+        </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  // Prompt
+  if (step.prompt) {
+    const escaped = escapeHtml(step.prompt.text);
+    const highlighted = highlightPlaceholders(escaped);
+    html += `
+      <div class="prompt-card">
+        <div class="card-title"><span class="card-title-icon">📋</span>${step.prompt.title}</div>
+        ${step.prompt.desc ? `<div class="prompt-card-desc">${step.prompt.desc}</div>` : ''}
+        <div class="prompt-box">
+          <button class="copy-btn" data-copy-id="${step.id}">Copy</button>
+          <pre id="prompt-${step.id}" style="margin: 0; font-family: inherit; font-size: inherit; line-height: inherit; white-space: pre-wrap; word-wrap: break-word;">${highlighted}</pre>
+        </div>
+      </div>
+    `;
+  }
+
+  // Extra HTML (table, etc.)
+  if (step.extraHtml) html += step.extraHtml;
+
+  // Example collapsible
+  if (step.example === 'output-example') {
+    html += `
+      <div class="collapsible" id="example-collapsible">
+        <button class="collapsible-trigger">
+          <span>📖 Example output thực — "Chuột cắn dây khoang máy" (Lái Xe Né Sai)</span>
+          <span class="collapsible-icon">▼</span>
+        </button>
+        <div class="collapsible-content">${EXAMPLE_OUTPUT_HTML}</div>
+      </div>
+    `;
+  }
+
+  // Callouts
+  if (step.callouts) {
+    step.callouts.forEach(c => {
+      html += `
+        <div class="callout ${c.type}">
+          ${c.title ? `<div class="callout-title">${c.title}</div>` : ''}
+          <div>${c.html}</div>
+        </div>
+      `;
+    });
+  }
+
+  return html;
+}
+
+function renderAllSteps() {
+  const main = document.getElementById('main');
+  main.innerHTML = STEPS.map((s, i) => {
+    return `<section class="step" data-step="${i}" id="step-${i}">${renderStepContent(s, i)}</section>`;
+  }).join('');
+
+  // Wire checkbox
+  main.querySelectorAll('input[type="checkbox"][data-aid]').forEach(cb => {
+    cb.addEventListener('change', e => {
+      const id = e.target.dataset.aid;
+      checkState[id] = e.target.checked;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(checkState));
+      // Toggle parent class
+      const parent = e.target.closest('.action-item');
+      if (parent) parent.classList.toggle('done', e.target.checked);
+      updateProgress();
+      renderStepper();
+    });
+  });
+
+  // Wire copy buttons
+  main.querySelectorAll('.copy-btn[data-copy-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.copyId;
+      const step = STEPS.find(s => s.id === id);
+      if (!step || !step.prompt) return;
+      navigator.clipboard.writeText(step.prompt.text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Đã copy';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1500);
+      }).catch(err => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = step.prompt.text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        ta.remove();
+        btn.textContent = '✓ Đã copy';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      });
+    });
+  });
+
+  // Wire action item click (click anywhere on the row toggles)
+  main.querySelectorAll('.action-item').forEach(row => {
+    row.addEventListener('click', e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') return;
+      const cb = row.querySelector('input[type="checkbox"]');
+      if (cb) {
+        cb.checked = !cb.checked;
+        cb.dispatchEvent(new Event('change'));
+      }
+    });
+  });
+
+  // Wire collapsible
+  main.querySelectorAll('.collapsible-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      trigger.parentElement.classList.toggle('open');
+    });
+  });
+}
+
+// =============== NAV ===============
+// stepper removed — single-page scroll, no nav needed
+function updateActivePill() {}
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Xóa toàn bộ tick checkbox và scroll position? Không thể hoàn tác.')) {
+    checkState = {};
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(SCROLL_KEY);
+    renderAllSteps();
+    updateProgress();
+    renderStepper();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+// =============== BACK-TO-TOP + SCROLL RESTORE ===============
+const SCROLL_KEY = 'sop-scroll-y-v4';
+const backToTopBtn = document.getElementById('backToTop');
+
+backToTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function updateBackToTop() {
+  if (window.scrollY > 400) backToTopBtn.classList.add('visible');
+  else backToTopBtn.classList.remove('visible');
+}
+
+let scrollSaveTimer = null;
+function saveScroll() {
+  if (scrollSaveTimer) return;
+  scrollSaveTimer = setTimeout(() => {
+    localStorage.setItem(SCROLL_KEY, window.scrollY.toString());
+    scrollSaveTimer = null;
+  }, 500);
+}
+
+window.addEventListener('scroll', () => {
+  updateBackToTop();
+  saveScroll();
+}, { passive: true });
+
+// =============== INIT ===============
+renderAllSteps();
+renderStepper();
+updateProgress();
+updateActivePill();
+
+// Restore scroll position after DOM render
+requestAnimationFrame(() => {
+  const savedScroll = parseInt(localStorage.getItem(SCROLL_KEY) || '0', 10);
+  if (savedScroll > 0) window.scrollTo({ top: savedScroll, behavior: 'instant' });
+  updateBackToTop();
+});
+</script>
+</body>
+</html>

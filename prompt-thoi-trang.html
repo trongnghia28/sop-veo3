@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Thời Trang — Nano Banana / VEO 3</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f6f3;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --soft: #f1f5f9;
+  --text: #37352f;
+  --text-soft: #6b7280;
+  --text-faint: #9ca3af;
+  --blue: #2563eb;
+  --blue-soft: #eff6ff;
+  --blue-dark: #1d4ed8;
+  --purple: #7c3aed;
+  --purple-soft: #f5f3ff;
+  --green: #16a34a;
+  --green-soft: #ecfdf5;
+  --yellow: #eab308;
+  --yellow-soft: #fef9c3;
+  --orange-text: #92400e;
+  --orange-bg: #fef3c7;
+  --pink: #db2777;
+  --pink-soft: #fdf2f8;
+}
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Topbar */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(247, 246, 243, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+}
+.topbar-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--pink); color: white;
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 16px;
+}
+.brand-name { font-weight: 700; font-size: 15px; line-height: 1.2; }
+.brand-sub { font-size: 12px; color: var(--text-soft); }
+.back-link {
+  font-size: 13px; font-weight: 600;
+  padding: 6px 12px; border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+}
+.back-link:hover { background: var(--soft); text-decoration: none; }
+
+/* TOC */
+.toc {
+  position: sticky; top: 55px; z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.toc-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px;
+  display: flex; gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.toc-link {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12.5px; font-weight: 600;
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  background: var(--card);
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.toc-link:hover {
+  color: var(--pink);
+  border-color: var(--pink);
+  text-decoration: none;
+}
+.toc-link.active {
+  background: var(--pink);
+  color: white;
+  border-color: var(--pink);
+}
+
+/* Main */
+main {
+  max-width: 820px; margin: 0 auto;
+  padding: 24px 24px 60px;
+}
+.section {
+  padding: 28px 0;
+  border-bottom: 2px solid var(--soft);
+  scroll-margin-top: 130px;
+}
+.section:last-child { border-bottom: none; padding-bottom: 0; }
+.section:first-child { padding-top: 0; }
+.section-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--pink-soft);
+  color: var(--pink);
+  border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.section-title {
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 10px 0 6px;
+  line-height: 1.25;
+}
+.section-desc { color: var(--text-soft); font-size: 14px; max-width: 700px; margin-bottom: 18px; }
+
+.sub-section { margin-top: 24px; }
+.sub-title {
+  font-size: 16px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--border);
+}
+.sub-desc {
+  font-size: 13px; color: var(--text-soft);
+  margin-bottom: 10px;
+}
+
+/* Prompt block */
+.prompt-block {
+  margin-top: 14px;
+  background: var(--purple-soft);
+  border: 1px solid #ddd6fe;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.prompt-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 10px;
+}
+.prompt-label-icon { font-size: 14px; }
+.prompt-box {
+  position: relative;
+  background: #1e1b2e;
+  color: #e9e6f5;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+}
+.prompt-box pre {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  background: transparent;
+  color: inherit;
+  padding-right: 60px;
+}
+.copy-btn {
+  position: absolute; top: 8px; right: 8px;
+  padding: 5px 11px;
+  background: rgba(255,255,255,0.1);
+  color: #e9e6f5;
+  border-radius: 6px;
+  font-size: 11px; font-weight: 600;
+  transition: all 0.15s;
+}
+.copy-btn:hover { background: rgba(255,255,255,0.2); }
+.copy-btn.copied {
+  background: var(--green);
+  color: white;
+}
+
+/* Callout */
+.callout {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-left: 3px solid;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.callout-title { font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.callout.tip { background: var(--blue-soft); border-color: var(--blue); color: #1e40af; }
+.callout.warn { background: var(--yellow-soft); border-color: var(--yellow); color: #854d0e; }
+.callout.rule { background: var(--green-soft); border-color: var(--green); color: #166534; }
+.callout code {
+  background: rgba(0,0,0,0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+/* Two-col compact */
+.dual-prompt {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+@media (max-width: 720px) {
+  .dual-prompt { grid-template-columns: 1fr; }
+}
+
+/* Hero banner */
+.hero {
+  margin-top: 12px;
+  padding: 20px 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink-soft) 0%, var(--purple-soft) 100%);
+  border: 1px solid #f9a8d4;
+}
+.hero h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+.hero p {
+  font-size: 14px;
+  color: var(--text-soft);
+  max-width: 700px;
+}
+
+/* Back-to-top */
+.back-to-top {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 60;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: white;
+  font-size: 20px; font-weight: 700;
+  display: grid; place-items: center;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.15s;
+}
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { background: #be185d; transform: translateY(-2px); }
+
+@media (max-width: 640px) {
+  main { padding: 20px 16px 60px; }
+  .topbar { padding: 10px 14px; }
+  .brand-sub { display: none; }
+  .toc-inner { padding: 0 14px; }
+  .section-title { font-size: 20px; }
+  .prompt-box { font-size: 11.5px; padding: 12px 14px; }
+  .back-to-top { bottom: 16px; right: 16px; width: 40px; height: 40px; font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-logo">👗</div>
+      <div>
+        <div class="brand-name">Prompt Thời Trang</div>
+        <div class="brand-sub">Cheat sheet · Nano Banana / VEO 3 / Flow</div>
+      </div>
+    </div>
+    <a href="index.html" class="back-link">← Quay lại SOP 7 bước</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#section-1" class="toc-link">1 · Tách & Ghép</a>
+    <a href="#section-2" class="toc-link">2 · Tạo người mẫu</a>
+    <a href="#section-3" class="toc-link">3 · Tăng nét</a>
+  </div>
+</nav>
+
+<main>
+
+<div class="hero">
+  <h1>Prompt Thời Trang — Nano Banana / VEO 3</h1>
+  <p>Bộ prompt template phổ biến cho thao tác thời trang: tách-ghép trang phục / sản phẩm / bối cảnh, tạo người mẫu nhiều phong cách, tăng độ nét. Copy-paste thẳng vào Nano Banana trong Google Flow (chế độ tạo ảnh). Một số prompt cần upload thêm 1-2 ảnh tham khảo.</p>
+</div>
+
+<!-- ============ SECTION 1 ============ -->
+<section id="section-1" class="section">
+  <div class="section-tag">Phần 1</div>
+  <h2 class="section-title">Tách & Ghép — Trang Phục · Sản Phẩm · Bối Cảnh</h2>
+  <p class="section-desc">Kỹ thuật tách rời và ghép lại từng thành phần (trang phục, sản phẩm, bối cảnh). Cho phép thay outfit / sản phẩm / setting mà giữ nguyên nhân vật và các yếu tố không thay đổi.</p>
+
+  <!-- A — TÁCH -->
+  <div class="sub-section">
+    <h3 class="sub-title">A · Hướng dẫn TÁCH</h3>
+    <p class="sub-desc">Tách 1 thành phần ra khỏi ảnh gốc, đưa lên phông nền trắng tinh khiết để dùng làm ảnh tham khảo cho bước ghép sau.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">👕</span>Tách trang phục — Phiên bản đơn giản</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>tách toàn bộ trang phục của nhân vật vào một khung hình trên phông nền trắng</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">👕</span>Tách trang phục — Phiên bản chi tiết (giữ nguyên thuộc tính)</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên màu sắc, kích thước, chất liệu và toàn bộ chi tiết của bộ trang phục. Chỉ tách toàn bộ trang phục của nhân vật đang mặc trên người ra một phông nền trắng tinh khiết.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">👜</span>Tách sản phẩm — Phiên bản đơn giản</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>chỉ tách chiếc túi xách của nhân vật, trình bày trên phông nền trắng tinh khiết</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">👜</span>Tách sản phẩm — Phiên bản chi tiết</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên màu sắc, kích thước, hình dáng, chất liệu và toàn bộ chi tiết của chiếc túi xách (không thay đổi dù là chi tiết nhỏ nhất). Chỉ tách chiếc túi xách của nhân vật ra một phông nền trắng tinh khiết.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🏞️</span>Tách bối cảnh</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>chỉ tách nguyên bố cục và từng chi tiết bối cảnh khung hình, màu sắc chuẩn xác không được thay đổi</pre>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">💡 Mẹo dùng</div>
+      <div>Có thể thay "túi xách" bằng bất kỳ sản phẩm nào (giày, đồng hồ, kính, mỹ phẩm…). Giữ nguyên phần "giữ nguyên màu sắc, kích thước…" để Nano Banana không tự ý đổi chi tiết.</div>
+    </div>
+  </div>
+
+  <!-- B — GHÉP -->
+  <div class="sub-section">
+    <h3 class="sub-title">B · Hướng dẫn GHÉP</h3>
+    <p class="sub-desc">Sau khi đã tách, ghép thành phần từ ảnh thứ 2 vào nhân vật trong ảnh thứ 1. Upload 2 ảnh khi paste prompt.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">👕</span>Ghép trang phục vào nhân vật</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên khuôn mặt, vóc dáng cơ thể của nhân vật. Cho nhân vật mặc bộ trang phục ở khung hình thứ 2.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">👜</span>Ghép sản phẩm vào nhân vật</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên khuôn mặt, vóc dáng cơ thể và trang phục của nhân vật. Giữ nguyên bố cục bối cảnh khung hình không thay đổi. Cho nhân vật đeo túi xách ở khung hình thứ 2.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🏞️</span>Ghép bối cảnh — Đưa nhân vật vào setting mới</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên khuôn mặt, vóc dáng cơ thể và trang phục của nhân vật trong khung hình thứ 1. Cho nhân vật vào trong khung hình thứ 2. Giữ nguyên bố cục bối cảnh chi tiết của khung hình thứ 2, không được phép thay đổi hay thêm bất kỳ một chi tiết nào.</pre>
+      </div>
+    </div>
+
+    <div class="callout rule">
+      <div class="callout-title">✅ Nguyên tắc ghép</div>
+      <div>Luôn nói rõ <strong>"giữ nguyên cái gì"</strong> và <strong>"đổi cái gì"</strong>. Càng cụ thể, Nano Banana càng ít sai. Nếu cần giữ thêm chi tiết (vd: tóc, accessory), liệt kê thêm vào phần "giữ nguyên".</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 ============ -->
+<section id="section-2" class="section">
+  <div class="section-tag">Phần 2</div>
+  <h2 class="section-title">Tạo Người Mẫu — Nhiều Phong Cách</h2>
+  <p class="section-desc">Các template prompt phổ biến cho người mẫu thời trang: đi máy chạy bộ, check-in, unbox, cầm sản phẩm, ma-nơ-canh.</p>
+
+  <!-- Anti-pattern -->
+  <div class="sub-section">
+    <h3 class="sub-title">⚠️ Anti-pattern — Prompt chung chung hay bị sai</h3>
+    <p class="sub-desc">Prompt dưới đây <strong>thiếu</strong> "giữ nguyên khuôn mặt / vóc dáng / trang phục" → Nano Banana hay tự ý đổi mặt, dáng, outfit.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">⚠️</span>KHÔNG DÙNG — prompt chung chung</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>nhân vật đang đi bộ thong thả trên máy chạy bộ, trong một không gian nội thất hiện đại và ấm cúng. Góc chụp toàn thân, máy quay đặt ngang tầm mắt. Chủ thể đứng ở chính giữa khung hình. Máy chạy bộ đặt thẳng, song song với máy quay, máy không có tay vịn và đang được cắm điện. Chuyển động chậm rãi.</pre>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-title">⚠️ Tại sao sai</div>
+      <div>Thiếu phần "<em>giữ nguyên khuôn mặt, vóc dáng cơ thể và trang phục của nhân vật</em>" → Model sẽ <strong>gen nhân vật mới</strong> theo description chung chung, không khớp ảnh ref upload.</div>
+    </div>
+  </div>
+
+  <!-- A — Đi máy chạy bộ -->
+  <div class="sub-section">
+    <h3 class="sub-title">A · Đi trên máy đi bộ mini</h3>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🚶</span>Prompt chuẩn — Có "giữ nguyên" identity</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên khuôn mặt, vóc dáng cơ thể và trang phục của nhân vật. Nhân vật đang đi bộ thong thả trên máy chạy bộ, trong một không gian nội thất hiện đại và ấm cúng. Góc chụp toàn thân, máy quay đặt ngang tầm mắt. Chủ thể đứng ở chính giữa khung hình. Máy chạy bộ đặt thẳng, song song với máy quay, máy không có tay vịn và đang được cắm điện. Chuyển động chậm rãi.</pre>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">💡 Thay trang phục — 2 cách</div>
+      <div>
+        <p style="margin-bottom: 6px;"><strong>Cách 1 — Thủ công (2 bước):</strong> dùng prompt tách trang phục ở Phần 1A → có ảnh trang phục → upload 2 ảnh (nhân vật + trang phục) + dùng prompt ghép ở Phần 1B → có ảnh ghép → cuối cùng dùng prompt máy đi bộ.</p>
+        <p><strong>Cách 2 — Tối ưu (1 prompt):</strong> upload trực tiếp 2 ảnh (nhân vật + ảnh trang phục mẫu), dùng prompt dưới đây để gộp tất cả vào 1 lần gen.</p>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🚶</span>Tối ưu — Thay trang phục + máy chạy bộ trong 1 prompt</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>giữ nguyên khuôn mặt, vóc dáng cơ thể và trang phục của nhân vật. Giữ nguyên bố cục bối cảnh khung hình không thay đổi. Nhân vật mặc trang phục trong khung hình thứ 2, đang đi bộ thong thả trên máy chạy bộ, trong một không gian nội thất hiện đại và ấm cúng. Góc chụp toàn thân, máy quay đặt ngang tầm mắt. Chủ thể đứng ở chính giữa khung hình. Máy chạy bộ đặt thẳng, song song với máy quay, máy không có tay vịn và đang được cắm điện. Chuyển động chậm rãi.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- B — Cầm điện thoại check-in -->
+  <div class="sub-section">
+    <h3 class="sub-title">B · Cầm điện thoại check-in / Selfie</h3>
+    <p class="sub-desc">Dùng chatbot (ChatGPT / Claude) sinh ra nhiều prompt khác nhau theo template dưới.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">📱</span>Yêu cầu chatbot sinh prompt — pose check-in selfie</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Viết cho tôi nhiều prompt cầm điện thoại iPhone tạo ảnh check-in selfie: đứng trước gương, phòng ngủ, shop quần áo thời trang. Mỗi prompt một pose khác nhau. Viết prompt bằng tiếng Việt.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🔁</span>Câu lệnh follow-up — Xin thêm</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Giữ nguyên cấu trúc nội dung bên trên mà tôi cung cấp, cho tôi nhiều prompt nữa, mỗi prompt một pose khác nhau.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- C — Unbox sản phẩm -->
+  <div class="sub-section">
+    <h3 class="sub-title">C · Unbox sản phẩm</h3>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">📦</span>Yêu cầu chatbot sinh prompt unbox</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Viết cho tôi nhiều prompt nhân vật đang unbox sản phẩm: quần áo, giày dép, mỹ phẩm, trang sức, đồ ăn vặt... Bối cảnh: phòng ngủ, shop quần áo thời trang, shop mỹ phẩm, shop đồ thể thao, shop đồ gia dụng, shop tiêu dùng tiện lợi... Mỗi prompt một pose khác nhau. Viết prompt bằng tiếng Việt.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🔁</span>Câu lệnh follow-up — Xin thêm</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Giữ nguyên cấu trúc nội dung bên trên mà tôi cung cấp, cho tôi nhiều prompt nữa, mỗi prompt một pose khác nhau.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- D — Cầm sản phẩm trên móc treo -->
+  <div class="sub-section">
+    <h3 class="sub-title">D · Cầm sản phẩm trên móc treo</h3>
+    <p class="sub-desc">Style "shop quần áo" — nhân vật cầm chiếc móc có treo bộ đồ giới thiệu.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🧥</span>Yêu cầu chatbot sinh prompt — móc treo</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Viết cho tôi nhiều prompt nhân vật cầm sản phẩm (bộ trang phục đang mặc trên người), để trong một chiếc móc treo quần áo. Nhân vật cầm chiếc móc trên tay, bên trong là bộ trang phục. Bối cảnh: đứng trước camera, phòng ngủ, phòng thay đồ, shop quần áo thời trang... Mỗi prompt một pose khác nhau. Viết prompt bằng tiếng Việt.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🔁</span>Câu lệnh follow-up — Xin thêm</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Giữ nguyên cấu trúc nội dung bên trên mà tôi cung cấp, cho tôi nhiều prompt nữa, mỗi prompt một pose khác nhau.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- E — Ma-nơ-canh -->
+  <div class="sub-section">
+    <h3 class="sub-title">E · Giới thiệu sản phẩm trên ma-nơ-canh</h3>
+    <p class="sub-desc">Style "shop / showroom" — nhân vật đứng cạnh ma-nơ-canh trắng có mặc bộ trang phục giới thiệu.</p>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🧍</span>Yêu cầu chatbot sinh prompt — ma-nơ-canh</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Viết cho tôi nhiều prompt nhân vật giới thiệu bộ trang phục trên ma-nơ-canh trắng. Bên trong là bộ trang phục. Bối cảnh: phòng ngủ, phòng thay đồ, shop quần áo thời trang... Mỗi prompt một pose khác nhau. Viết prompt bằng tiếng Việt.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🔁</span>Câu lệnh follow-up — Xin thêm</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Giữ nguyên cấu trúc nội dung bên trên mà tôi cung cấp, cho tôi nhiều prompt nữa, mỗi prompt một pose khác nhau.</pre>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">💡 Workflow nhanh cho B/C/D/E</div>
+      <div>1) Paste yêu cầu chatbot → nhận 5-10 prompt → chọn pose ưng → paste vào Nano Banana + upload ảnh ref nhân vật → gen ảnh. 2) Cần thêm → paste câu lệnh follow-up.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 ============ -->
+<section id="section-3" class="section">
+  <div class="section-tag">Phần 3</div>
+  <h2 class="section-title">Tăng Nét — Giữ Nguyên Chi Tiết</h2>
+  <p class="section-desc">Prompt nâng cấp chất lượng ảnh (tăng độ sắc nét, làm da chân thực, không thay đổi bố cục/màu/nhân vật). Có 2 bản: English (Nano Banana đôi khi xử lý tốt hơn) và tiếng Việt.</p>
+
+  <div class="dual-prompt">
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🇬🇧</span>Prompt tăng nét — English</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>While maintaining precise composition and color, enhance and improve image quality. Remove blurriness, making the skin present a realistic and delicate texture: clear pores, fine lines, and natural light and shadow transitions. Retain light tones and the background, and optimize edge sharpness around the eyes, eyelashes, lips, and hair, giving the portrait the texture of high-end beauty photography, presenting a natural and unpretentious skin effect.</pre>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-label"><span class="prompt-label-icon">🇻🇳</span>Prompt tăng nét — Tiếng Việt</div>
+      <div class="prompt-box">
+        <button class="copy-btn">Copy</button>
+        <pre>Trong khi vẫn giữ nguyên bố cục và màu sắc chuẩn xác, hãy nâng cao và cải thiện chất lượng hình ảnh. Loại bỏ hiện tượng mờ nhòe, giúp làn da hiện lên với kết cấu chân thực và tinh tế: lỗ chân lông rõ nét, những đường nét mảnh, cùng sự chuyển tiếp tự nhiên giữa ánh sáng và bóng đổ. Giữ lại các tông sáng và phần hậu cảnh, đồng thời tối ưu hóa độ sắc nét tại các đường viền quanh mắt, lông mi, môi và mái tóc. Mang lại cho bức chân dung chất lượng thẩm mỹ của nhiếp ảnh làm đẹp cao cấp, tạo nên hiệu ứng làn da tự nhiên và không hề gượng gạo.</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout rule">
+    <div class="callout-title">✅ Khi nào dùng</div>
+    <div>
+      <ul style="padding-left: 18px; margin-top: 4px;">
+        <li>Ảnh gốc đẹp về composition nhưng độ phân giải thấp / hơi mờ</li>
+        <li>Cần xuất ảnh quality cao cho cover / banner / in ấn</li>
+        <li>Da nhân vật hơi flat → cần thêm chi tiết lỗ chân lông tự nhiên</li>
+      </ul>
+      Upload ảnh gốc → paste prompt → gen. Nano Banana sẽ enhance nét mà giữ nguyên bố cục.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<button class="back-to-top" id="backToTop" title="Lên đầu trang" aria-label="Lên đầu trang">↑</button>
+
+<script>
+// Copy button — copy text of nextElementSibling <pre>
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pre = btn.parentElement.querySelector('pre');
+    if (!pre) return;
+    const text = pre.textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Đã copy';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.classList.remove('copied');
+      }, 1500);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      ta.remove();
+      btn.textContent = '✓ Đã copy';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  });
+});
+
+// Back-to-top
+const backToTopBtn = document.getElementById('backToTop');
+backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) backToTopBtn.classList.add('visible');
+  else backToTopBtn.classList.remove('visible');
+}, { passive: true });
+
+// TOC smooth scroll + active highlight
+const tocLinks = document.querySelectorAll('.toc-link');
+tocLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    const topbarH = document.querySelector('.topbar').offsetHeight;
+    const tocH = document.querySelector('.toc').offsetHeight;
+    const y = target.getBoundingClientRect().top + window.scrollY - topbarH - tocH - 10;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  });
+});
+
+// TOC active state on scroll
+function updateActiveToc() {
+  const sections = document.querySelectorAll('.section');
+  const topbarH = document.querySelector('.topbar').offsetHeight + document.querySelector('.toc').offsetHeight + 30;
+  let activeId = sections[0]?.id;
+  sections.forEach(sec => {
+    if (sec.offsetTop <= window.scrollY + topbarH) activeId = sec.id;
+  });
+  tocLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + activeId);
+  });
+}
+window.addEventListener('scroll', updateActiveToc, { passive: true });
+updateActiveToc();
+</script>
+</body>
+</html>
