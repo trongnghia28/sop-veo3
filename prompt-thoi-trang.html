@@ -57,20 +57,42 @@ a:hover { text-decoration: underline; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-logo {
   width: 30px; height: 30px; border-radius: 8px;
-  background: var(--pink); color: white;
+  background: var(--blue); color: white;
   display: grid; place-items: center;
-  font-weight: 800; font-size: 16px;
+  font-weight: 800; font-size: 14px;
 }
-.brand-name { font-weight: 700; font-size: 15px; line-height: 1.2; }
-.brand-sub { font-size: 12px; color: var(--text-soft); }
-.back-link {
+/* Header menu — tab nav giữa các trang */
+.main-nav {
+  display: flex;
+  gap: 2px;
+  background: var(--soft);
+  border-radius: 10px;
+  padding: 3px;
+}
+.nav-tab {
+  padding: 6px 14px;
+  border-radius: 7px;
   font-size: 13px; font-weight: 600;
-  padding: 6px 12px; border-radius: 6px;
-  border: 1px solid var(--border);
+  color: var(--text-soft);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 5px;
+}
+.nav-tab:hover { color: var(--text); text-decoration: none; }
+.nav-tab.active {
   background: var(--card);
   color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
-.back-link:hover { background: var(--soft); text-decoration: none; }
+.nav-tab.active.tab-sop { color: var(--blue); }
+.nav-tab.active.tab-fashion { color: var(--pink); }
+@media (max-width: 640px) {
+  .nav-tab { padding: 5px 10px; font-size: 12px; }
+  .nav-tab .tab-label { display: none; }
+  .nav-tab .tab-short { display: inline; }
+}
+.nav-tab .tab-short { display: none; }
 
 /* TOC */
 .toc {
@@ -292,13 +314,21 @@ main {
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <div class="brand-logo">👗</div>
-      <div>
-        <div class="brand-name">Prompt Thời Trang</div>
-        <div class="brand-sub">Cheat sheet · Nano Banana / VEO 3 / Flow</div>
-      </div>
+      <div class="brand-logo">N</div>
     </div>
-    <a href="index.html" class="back-link">← Quay lại SOP 7 bước</a>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-tab tab-sop">
+        <span class="tab-icon">📋</span>
+        <span class="tab-label">SOP 7 bước</span>
+        <span class="tab-short">SOP</span>
+      </a>
+      <a href="prompt-thoi-trang.html" class="nav-tab tab-fashion active">
+        <span class="tab-icon">👗</span>
+        <span class="tab-label">Prompt Thời Trang</span>
+        <span class="tab-short">Thời trang</span>
+      </a>
+    </nav>
+    <div class="topbar-right" style="width: 30px;"></div>
   </div>
 </header>
 

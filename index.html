@@ -79,20 +79,39 @@ code, .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, mon
   background: var(--card);
 }
 .reset-btn:hover { color: var(--red); border-color: var(--red); }
-.page-link {
-  font-size: 12px; font-weight: 600;
-  color: #db2777;
-  padding: 5px 12px; border-radius: 6px;
-  border: 1px solid #fbcfe8;
-  background: #fdf2f8;
+
+/* Header menu — tab nav giữa các trang */
+.main-nav {
+  display: flex;
+  gap: 2px;
+  background: var(--soft);
+  border-radius: 10px;
+  padding: 3px;
+}
+.nav-tab {
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-soft);
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.15s;
+  display: flex; align-items: center; gap: 5px;
 }
-.page-link:hover { background: #fce7f3; border-color: #db2777; }
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.nav-tab.active.tab-sop { color: var(--blue); }
+.nav-tab.active.tab-fashion { color: #db2777; }
 @media (max-width: 640px) {
-  .page-link { font-size: 11px; padding: 4px 9px; }
+  .nav-tab { padding: 5px 10px; font-size: 12px; }
+  .nav-tab .tab-label { display: none; }
+  .nav-tab .tab-short { display: inline; }
 }
+.nav-tab .tab-short { display: none; }
 
 /* Stepper */
 .stepper {
@@ -638,13 +657,20 @@ main {
   <div class="topbar-inner">
     <div class="brand">
       <div class="brand-logo">N</div>
-      <div>
-        <div class="brand-name">SOP Workflow Video AI</div>
-        <div class="brand-sub">7 bước · build Custom GPT cho VEO 3</div>
-      </div>
     </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-tab tab-sop active">
+        <span class="tab-icon">📋</span>
+        <span class="tab-label">SOP 7 bước</span>
+        <span class="tab-short">SOP</span>
+      </a>
+      <a href="prompt-thoi-trang.html" class="nav-tab tab-fashion">
+        <span class="tab-icon">👗</span>
+        <span class="tab-label">Prompt Thời Trang</span>
+        <span class="tab-short">Thời trang</span>
+      </a>
+    </nav>
     <div class="topbar-right">
-      <a href="prompt-thoi-trang.html" class="page-link" title="Mở trang Prompt Thời Trang">👗 Prompt Thời Trang</a>
       <button class="reset-btn" id="resetBtn" title="Xóa toàn bộ tick checkbox">↻ Reset</button>
       <div class="progress-wrap">
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
