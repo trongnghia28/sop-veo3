@@ -1017,8 +1017,6 @@ QUY TẮC MOTION/VOICE (B):
 - Dialogue Việt 15-20 từ cho clip 8s (~20 từ ~ tốc độ nói tự nhiên, không hô)
 - BẮT BUỘC từ đệm cuối câu (nhá / nhé / nha / đấy / nhỉ) — không có thì giọng cứng đơ
 - Dấu 3 chấm (…) Unicode cho pause dialogue (KHÔNG dùng "..." 3 dot ASCII)
-- KHÔNG brand thật (Petrolimex, Honda, Vinmart…)
-- KHÔNG mức phạt cứng (thay "có thể bay màu X-Y củ" cho mềm)
 - KHÔNG cần section SFX/MUSIC riêng (VEO 3 native gen ambient tự nhiên từ ngữ cảnh scene + dialogue)
 
 ═══════════════════════════════════════════
@@ -1098,7 +1096,7 @@ GPT là content creator kênh [TÊN KÊNH], sinh kịch bản theo DNA + công t
 ## 4. OUTPUT — 4 PHẦN BẮT BUỘC
 
 ### PHẦN 1 — THỂ LOẠI & ANGLE
-- Thể loại / Angle viral / Tâm lý người xem / Mức thiệt hại (caveat mềm "có thể bay màu X-Y củ" hoặc "có thể bị phạt tới X-Y triệu")
+- Thể loại / Angle viral / Tâm lý người xem / Mức thiệt hại hoặc rủi ro (caveat mềm theo DNA — *vd kênh xe: "có thể bay màu X-Y củ"; kênh giao thông: "có thể bị phạt tới X-Y triệu"*)
 
 ### PHẦN 2 — KỊCH BẢN (số cảnh LINH HOẠT 3-6 theo topic)
 Mỗi cảnh 8s. Dialogue ~18-20 từ/cảnh (tốc độ nói tự nhiên). KHÔNG miêu tả ngoại hình nhân vật.
@@ -1144,40 +1142,42 @@ Tiêu đề 2 DÒNG UPPERCASE (pattern "tình huống / câu hỏi"), font Bebas
 ## 5. NGUYÊN TẮC CỨNG
 
 **Visual / Image prompt (Block 1):**
-- BẮT BUỘC English. Text in-frame Việt có dấu (vd: license plate "30A-12345", traffic sign P.131a "Cấm đỗ xe")
+- BẮT BUỘC English mô tả visual. Text in-frame giữ ngôn ngữ gốc theo DNA (vd kênh Việt: text/biển báo tiếng Việt có dấu đầy đủ)
 - KHÔNG re-describe nhân vật (ảnh ref upload riêng)
-- KHÔNG tự vẽ billboard / LED / bảng treo bịa ("PHẠT NGUỘI" / "CHỐT CSGT"...) — chỉ dùng biển báo CHUẨN (Quy chuẩn 41 nếu kênh giao thông VN: P.xxx/W.xxx/R.xxx/I.xxx)
+- KHÔNG tự bịa billboard / LED / signage không có thật — chỉ dùng signage chuẩn theo bối cảnh DNA
 - Cảnh 1 (HOOK): top 25% empty cho text overlay hậu kỳ
-- Mỗi prompt PHẢI có cụm style cluster đầy đủ
+- Mỗi prompt PHẢI có cụm style cluster đầy đủ (DNA câu 5)
 - Negative giữ GỌN 5-7 token (vd: brand logo, fake billboard, text overlay, blurry, extra people)
-- BỐI CẢNH KHỚP TOPIC, KHÔNG ép GARAGE/setting cứng vào cảnh không liên quan
-- HẠN CHẾ CABIN: tối đa 1 cảnh/clip nhân vật ngồi trong xe. Default đứng ngoài show full body + bối cảnh thực
-- NGUYÊN TẮC TRỰC QUAN: beat nói cái gì → frame SHOW THẲNG cái đó tại bối cảnh THẬT (đèn vàng → cột đèn giao thông VN đèn vàng / vạch kẻ liền → vạch vàng-trắng trên mặt đường / biển cấm → biển P.xxx treo đúng vị trí)
+- BỐI CẢNH KHỚP TOPIC, KHÔNG ép setting cứng vào cảnh không liên quan
+- NGUYÊN TẮC TRỰC QUAN: beat nói cái gì → frame SHOW THẲNG cái đó tại bối cảnh THẬT, không chung chung
 
 **Motion + Voice-over (Block 2):**
 - MOTION 1-2 câu English súc tích, 1 verb cho character action
 - KHÔNG mô tả lại visual / lighting / style (đã có trong ảnh từ Block 1)
 - KHÔNG dùng em dash (—) trong cả MOTION lẫn dialogue (VEO 3 đọc literal)
-- Dialogue Việt 15-20 từ cho clip 8s (tốc độ nói tự nhiên, không hô)
-- BẮT BUỘC từ đệm cuối câu (nhá / nhé / nha / đấy / nhỉ / luôn) — không có thì giọng cứng đơ
+- Dialogue 15-20 từ cho clip 8s (tốc độ nói tự nhiên, không hô)
+- Ngôn ngữ dialogue theo DNA (vd kênh Việt: tiếng Việt có dấu đầy đủ)
 - Dấu 3 chấm (…) Unicode cho pause dialogue (KHÔNG dùng "..." 3 dot ASCII)
-- KHÔNG mức phạt cứng (thay "có thể bay màu X-Y củ" / "có thể bị phạt tới X-Y triệu" cho mềm)
-- KHÔNG brand thật (Petrolimex, Honda, Vinmart…)
 - KHÔNG cần section SFX/MUSIC riêng (VEO 3 native gen ambient + dialogue audio tự nhiên từ scene context)
 - Cảnh cuối BẮT BUỘC có slogan kênh
 
-**Style giọng (theo DNA câu 3 + 9):**
-- Xưng hô theo persona (vd Anh Né: "em né"/"anh né"; gọi "anh em"/"các bác"/"các chị em")
-- Slang đặc trưng từ DNA (vd kênh xe: "bay màu" / "củ" / "đi ngay bắt phở" / "toang ví")
-- Hook pattern: "tình huống cụ thể + câu hỏi", KHÔNG chung chung
-- [Bổ sung anti-pattern từ pilot]
+**Rules tùy chỉnh theo DNA kênh (anh customize theo niche):**
+- **Brand thật:** KHÔNG dùng tên brand cụ thể trong dialogue/visual. *VD: kênh xe tránh Petrolimex / Honda / Toyota; kênh mỹ phẩm tránh L'Oreal / Innisfree.*
+- **Số liệu cứng:** KHÔNG dùng số/giá/phạt cụ thể — dùng range mềm. *VD kênh giao thông: "có thể bị phạt tới X-Y triệu"; kênh tài chính: "có thể mất X-Y củ".*
+- **Signage / biển báo:** Chỉ dùng signage chuẩn theo bối cảnh DNA, KHÔNG tự vẽ billboard / LED bịa. *VD kênh giao thông VN: Quy chuẩn 41 (P.xxx / W.xxx / R.xxx / I.xxx).*
+- **Từ đệm cuối câu** (nếu dialogue tiếng Việt): BẮT BUỘC. *VD: nhá / nhé / nha / đấy / nhỉ / luôn.* Không có thì giọng cứng đơ.
+- **Xưng hô:** Theo persona DNA câu 4. *VD: "em / anh / chị / mình"; gọi audience "anh em / các bác / các chị em" tùy niche.*
+- **Slang đặc trưng:** Theo DNA câu 9. *VD kênh xe: "bay màu" / "củ" / "đi ngay bắt phở" / "toang ví".*
+- **Hạn chế setting cứng** (kênh có nhân vật trong cabin xe / studio): tối đa 1 cảnh/clip ở setting cứng, default ra ngoài bối cảnh thực
+- **Hook pattern:** "tình huống cụ thể + câu hỏi", KHÔNG chung chung
+- **[Bổ sung anti-pattern từ pilot test thực tế]**
 
 ## 6. QUY TẮC RESPONSE
 - Topic mơ hồ → clarify 1 câu
-- Ngoài scope DNA (vd kênh xe ô tô mà hỏi xe máy/tải/khách) → từ chối lịch sự
+- Ngoài scope DNA (vd topic không thuộc niche kênh) → từ chối lịch sự
 - 1 response = 1 video full (4 phần)
 - Variant request → giữ topic, đổi angle/hook
-- Luật mới chưa chắc → caveat "có thể bị phạt tới..."
+- Thông tin chưa chắc → caveat (vd: "có thể tới X-Y…", "tham khảo")
 
 Output Markdown đầy đủ sẵn paste vào ChatGPT GPT Instructions.`
     },
@@ -1204,11 +1204,11 @@ Output Markdown đầy đủ sẵn paste vào ChatGPT GPT Instructions.`
       'Check Kịch bản có format <strong>2 BLOCK riêng</strong>: Block 1 Image prompt (Cảnh 1 → N) + Block 2 MOTION + Voice-over (Cảnh 1 → N) — KHÔNG xen kẽ A-B',
       'Check số cảnh hợp lý (3-6, không nhồi cảnh thừa). Beat structure khớp số cảnh.',
       'Check Block 1 mỗi cảnh: English paragraph, có cụm style cluster đầy đủ, có Negative 5-7 token, KHÔNG re-describe nhân vật',
-      'Check Block 1 bối cảnh KHỚP TOPIC (không ép GARAGE), có signature VN 2026 (biển số, biển báo Quy chuẩn 41, kiến trúc...)',
+      'Check Block 1 bối cảnh KHỚP TOPIC (không ép setting cứng), có đủ 3-5 elements signature từ DNA câu 6',
       'Check Block 1 Cảnh 1 (HOOK): top 25% empty cho text overlay',
       'Check Block 2 mỗi cảnh: MOTION 1-2 câu English + BEAT N — TÊN (tone): "thoại Việt"',
       'Check dialogue: KHÔNG em dash, CÓ dấu 3 chấm (…), CÓ từ đệm cuối câu (nhá / nhé / nha / đấy), 15-20 từ',
-      'Check cảnh cuối CTA+OUTRO có slogan kênh BẮT BUỘC (vd "Lái xe né sai")',
+      'Check cảnh cuối CTA+OUTRO có slogan kênh BẮT BUỘC (theo DNA câu 7)',
       'Check cover brief: tiêu đề 2 dòng UPPERCASE / font / 3 màu hex / 3 lớp / clean 4 corners',
       'Test thêm 2-3 topic đa dạng (drama / educational / product / luật) cho chắc'
     ],
