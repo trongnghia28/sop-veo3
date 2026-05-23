@@ -998,6 +998,9 @@ QUY TẮC IMAGE PROMPT (A):
 - Composition tính trước top 25% để chèn text overlay (nếu cần)
 - Negative liệt kê 5-7 thứ cấm
 
+TRƯỜNG HỢP THAY OUTFIT (nếu cảnh cần nhân vật mặc trang phục khác với ref default):
+Thêm câu sau vào đầu prompt: "Giữ nguyên khuôn mặt, vóc dáng cơ thể, tóc và accessory signature của nhân vật. Chỉ thay trang phục sang [mô tả outfit mới: màu / kiểu / chất liệu / chi tiết]." Có thể upload thêm 1 ảnh outfit mẫu để Nano Banana ghép (xem chi tiết kỹ thuật tách-ghép trang phục ở trang Prompt Thời Trang).
+
 ═══════════════════════════════════════════
 (B) MOTION + VOICE-OVER — VEO 3 image-to-video
 ═══════════════════════════════════════════
@@ -1146,6 +1149,7 @@ Tiêu đề 2 DÒNG UPPERCASE (pattern "tình huống / câu hỏi"), font Bebas
 - Negative giữ GỌN 5-7 token (vd: brand logo, fake billboard, text overlay, blurry, extra people)
 - BỐI CẢNH KHỚP TOPIC, KHÔNG ép setting cứng vào cảnh không liên quan
 - NGUYÊN TẮC TRỰC QUAN: beat nói cái gì → frame SHOW THẲNG cái đó tại bối cảnh THẬT, không chung chung
+- **TRƯỜNG HỢP THAY OUTFIT** (nếu cảnh cần nhân vật mặc trang phục khác với ref default): prompt phải có câu "Giữ nguyên khuôn mặt, vóc dáng cơ thể, tóc và accessory signature của nhân vật. Chỉ thay trang phục sang [outfit mới: màu / kiểu / chất liệu / chi tiết]" — KHÔNG mô tả lại các phần giữ nguyên. Có thể upload thêm 1 ảnh outfit mẫu cho Nano Banana ghép.
 
 **Motion + Voice-over (Block 2):**
 - MOTION 1-2 câu English súc tích, 1 verb cho character action
